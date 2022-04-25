@@ -3,6 +3,8 @@ import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/constants/strings.dart';
 import 'package:cocina_ecologica/consumer/home_model.dart';
+import 'package:cocina_ecologica/model/contenido.dart';
+import 'package:cocina_ecologica/screens/receta_screen.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
 import 'package:cocina_ecologica/widgets/list_tab_widget.dart';
@@ -20,10 +22,12 @@ class InicioScreen extends StatefulWidget {
 class _InicioScreenState extends State<InicioScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late ValueNotifier<bool> _hideAppBarNotifier;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 10, vsync: this);
+     _hideAppBarNotifier = ValueNotifier(false);
   }
 
   @override
@@ -117,9 +121,12 @@ class _InicioScreenState extends State<InicioScreen>
                                     return TemaListWidget(
                                         tema: model.elementos[index].tema!);
                                   } else {
-                                    return ContenidoListWidget(
-                                        contenido:
-                                            model.elementos[index].contenido!);
+                                    return InkWell(
+                                      child: ContenidoListWidget(
+                                          contenido:
+                                              model.elementos[index].contenido!),
+                                      onTap: () => _abrirPaginaReceta(context, model.elementos[index].contenido!) ,
+                                    );
                                   }
                                 }),
                           ),
@@ -130,5 +137,23 @@ class _InicioScreenState extends State<InicioScreen>
         );
       },
     );
+  }
+
+   
+  void _abrirPaginaReceta(BuildContext context, Contenido contenido) async {
+    _hideAppBarNotifier.value = true;
+    await Navigator.push(
+        context,
+        PageRouteBuilder(
+          reverseTransitionDuration: const Duration(milliseconds: 600),
+          transitionDuration: const Duration(milliseconds: 600),
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return FadeTransition(
+              opacity: animation,
+              child: RecetaScreen(contenido: contenido),
+            );
+          },
+        ));
+    _hideAppBarNotifier.value = false;
   }
 }
