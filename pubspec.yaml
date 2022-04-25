@@ -45,8 +45,8 @@ dependencies:
   material_dialogs: ^1.1.1
   side_menu_animation: 1.1.0
   flutter_slidable: ^1.2.0
-  share_plus: ^4.0.4
   flutter_toggle_tab: ^1.1.7
+  flutter_share: ^2.0.0
   # Database for favorite
   hive: ^2.0.6
   hive_flutter: ^1.1.0

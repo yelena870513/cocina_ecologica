@@ -26,12 +26,12 @@ class AppTheme {
   static TextStyle tabSeleccionadoReceta = TextStyle(
       fontFamily: FontFamily.helvetica77,
       height: 1.5,
-      fontSize: 25,
+      fontSize: 15,
       color: AppColors.blancoSimple);
 
   static TextStyle tabDesSeleccionadoReceta = TextStyle(
       fontFamily: FontFamily.helvetica77,
       height: 1.5,
-      fontSize: 25,
+      fontSize: 15,
       color: AppColors.verdeOscuro);
 }

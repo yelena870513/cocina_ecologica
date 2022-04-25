@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cocina_ecologica/constants/app_theme.dart';
 import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
@@ -8,19 +9,26 @@ import 'dart:math';
 import 'package:faker/faker.dart';
 
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:flutter_share/flutter_share.dart';
 
-class RecetaScreen extends StatelessWidget {
+class RecetaScreen extends StatefulWidget {
   RecetaScreen({Key? key, required this.contenido}) : super(key: key);
 
-  final _angleRotateBoat = (pi * -.5);
-  final _dxTranslate = 80.0;
-  final _dyTranslate = -100.0;
   final Contenido contenido;
-  final _index = ValueNotifier<int>(1);
 
-  //-------------------------------------------------
-  // Custom Flight Hero
+  @override
+  State<RecetaScreen> createState() => _RecetaScreenState();
+}
+
+class _RecetaScreenState extends State<RecetaScreen> {
+  final _angleRotateBoat = (pi * -.5);
+
+  final _dxTranslate = 80.0;
+
+  final _dyTranslate = -100.0;
+
+  int _index = 0;
+
   //-------------------------------------------------
   Widget _flightShuttleBuilder(
       Animation animation, HeroFlightDirection flightDirection) {
@@ -40,7 +48,7 @@ class RecetaScreen extends StatelessWidget {
         );
       },
       child: ContenidoListWidget(
-        contenido: contenido,
+        contenido: widget.contenido,
       ),
     );
   }
@@ -59,100 +67,115 @@ class RecetaScreen extends StatelessWidget {
         decoration: UIKit.texturaPrincipal,
         width: size.width,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Hero(
-              tag: contenido.id.toString(),
+              tag: widget.contenido.id.toString(),
               flightShuttleBuilder: (_, animation, flightDirection, ___, ____) {
                 return _flightShuttleBuilder(animation, flightDirection);
               },
               child: Column(
                 children: [
-                  Text(contenido.titulo, style: AppTheme.tituloContenido),
+                  Text(widget.contenido.titulo,
+                      style: AppTheme.tituloContenido),
                   InkWell(
                     child: Image.asset(
-                        'assets/imagenes/iconos/icono_FAVORITO_OFF.png'),
+                        'assets/imagenes/iconos/icono_FAVORITO_OFF.png',
+                        height: 15,
+                        width: 15),
                   )
                 ],
               ),
             ),
-            ValueListenableBuilder(
-                valueListenable: _index,
-                builder: (_, value, child) {
-                  return Column(
-                    children: [
-                      FlutterToggleTab(
-                        selectedTextStyle: AppTheme.tabSeleccionadoReceta,
-                        unSelectedTextStyle: AppTheme.tabDesSeleccionadoReceta,
-                        selectedBackgroundColors: [AppColors.verdeBase],
-                        unSelectedBackgroundColors: [
-                          AppColors.verdeClaroOscuro.withOpacity(0.9)
-                        ],
-                        width: 200,
-                        borderRadius: 15,
-                        selectedIndex: _index.value,
-                        labels: ['Ingredientes', 'Procedimientos'],
-                        selectedLabelIndex: (index) {
-                          _index.value = index + 1;
-                        },
-                      ),
-                      _index.value == 0
-                          ? ListView.builder(
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      faker.lorem.word(),
-                                      style: AppTheme.estiloContenido,
-                                    ),
-                                    Text(faker.lorem.word(),
-                                        style: AppTheme.estiloContenido),
-                                    Text(faker.lorem.word(),
-                                        style: AppTheme.estiloContenido),
-                                  ],
-                                );
-                              })
-                          : ListView.builder(
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      faker.lorem.word(),
-                                      style: AppTheme.estiloContenido,
-                                    ),
-                                    Text(faker.lorem.word(),
-                                        style: AppTheme.estiloContenido),
-                                    Text(faker.lorem.word(),
-                                        style: AppTheme.estiloContenido),
-                                  ],
-                                );
-                              })
-                    ],
-                  );
-                }),
-            Text('8 Raciones', style: AppTheme.estiloContenido),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            Column(
               children: [
-                Text('Nota: ',
-                    style: AppTheme.estiloContenido
-                        .copyWith(fontWeight: FontWeight.bold)),
-                Text(faker.lorem.sentence(),
-                    style: AppTheme.estiloContenido.copyWith(
-                        color: AppColors.verdeOscuro.withOpacity(0.7)))
+                FlutterToggleTab(
+                  selectedTextStyle: AppTheme.tabSeleccionadoReceta,
+                  unSelectedTextStyle: AppTheme.tabDesSeleccionadoReceta,
+                  selectedBackgroundColors: [AppColors.verdeBase],
+                  unSelectedBackgroundColors: [
+                    AppColors.verdeClaroOscuro.withOpacity(0.9)
+                  ],
+                  width: 90,
+                  height: 50,
+                  borderRadius: 15,
+                  selectedIndex: _index,
+                  labels: ['Ingredientes', 'Procedimientos'],
+                  selectedLabelIndex: (index) {
+                    setState(() {
+                      _index = index;
+                      print(_index);
+                    });
+                  },
+                ),
+                Container(
+                  height: 300,
+                  child: _index == 0
+                      ? ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: 10,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  faker.lorem.word(),
+                                  style: AppTheme.estiloContenido,
+                                ),
+                                Text(faker.lorem.word(),
+                                    style: AppTheme.estiloContenido),
+                                Text(faker.lorem.word(),
+                                    style: AppTheme.estiloContenido),
+                              ],
+                            );
+                          })
+                      : ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: 10,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  faker.lorem.word(),
+                                  style: AppTheme.estiloContenido,
+                                ),
+                                Text(faker.lorem.word(),
+                                    style: AppTheme.estiloContenido),
+                                Text(faker.lorem.word(),
+                                    style: AppTheme.estiloContenido),
+                              ],
+                            );
+                          }),
+                )
               ],
+            ),
+            Text('8 Raciones', style: AppTheme.estiloContenido),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text('Nota: ',
+                      style: AppTheme.estiloContenido
+                          .copyWith(fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    width: 120,
+                    child: AutoSizeText(faker.lorem.sentence(),
+                        maxLines: 2,
+                        style: AppTheme.estiloContenido.copyWith(
+                            color: AppColors.verdeOscuro.withOpacity(0.7))),
+                  )
+                ],
+              ),
             )
           ],
         ),
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Share.share(contenido.texto, subject: contenido.titulo);
+          FlutterShare.share(
+              title: widget.contenido.texto, text: widget.contenido.titulo);
         },
         child: Image.asset('assets/imagenes/iconos/icono_COMPARTIR.png'),
         elevation: 5,
