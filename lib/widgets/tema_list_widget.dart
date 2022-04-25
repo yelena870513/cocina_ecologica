@@ -1,3 +1,4 @@
+import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/consumer/home_model.dart';
 import 'package:cocina_ecologica/model/tema.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class TemaListWidget extends StatelessWidget {
     return Container(
       child: Text(
         tema.titulo,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: FontFamily.helvetica77),
       ),
       height: kTemaAltura,
       alignment: Alignment.centerLeft,

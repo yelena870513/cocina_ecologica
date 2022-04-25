@@ -43,6 +43,8 @@ dependencies:
   responsive_framework: ^0.1.7
   photo_view: ^0.13.0
   material_dialogs: ^1.1.1
+  side_menu_animation: 1.1.0
+  flutter_slidable: ^1.2.0
   # Database for favorite
   hive: ^2.0.6
   hive_flutter: ^1.1.0
@@ -104,6 +106,12 @@ flutter:
   - family: HelveticaNeue77
     fonts: 
     - asset: assets/fuentes/HelveticaNeue77.ttf
+  - family: HelveticaNeue97BlackCondensed
+    fonts:
+    - asset: assets/fuentes/HelveticaNeue97BlackCondensed.otf
+  - family: HelveticaNeueLTStdCn
+    fonts:
+    - asset: assets/fuentes/HelveticaNeueLTStdCn.otf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

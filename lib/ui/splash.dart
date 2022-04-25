@@ -3,6 +3,8 @@ import 'dart:math' as math;
 import 'package:cocina_ecologica/ui/home.dart';
 import 'package:flutter/material.dart';
 
+import 'navigation.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -68,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen>
         pageBuilder: (context, animation1, animation2) {
           return FadeTransition(
             opacity: animation1,
-            child: const HomeScreen(),
+            child: NavigationScreen(),
           );
         },
         transitionDuration: const Duration(seconds: 3)));

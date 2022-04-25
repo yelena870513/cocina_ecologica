@@ -8,4 +8,5 @@ class Strings {
   static const String intro = "Introducción";
   static const String welcome = "Bienvenidos";
   static const String welcomeText = "Cocina Ecológica Cubana";
+  static const String culturaCuba = "Sobre nuestra cultura culinaria";
 }

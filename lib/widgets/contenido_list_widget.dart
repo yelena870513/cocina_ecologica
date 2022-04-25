@@ -1,3 +1,4 @@
+import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/consumer/home_model.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class ContenidoListWidget extends StatelessWidget {
           const SizedBox(height: 5,),
           Text(
           contenido.titulo,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal, fontFamily: FontFamily.helvetica77),
         ),
         ],)
       ),

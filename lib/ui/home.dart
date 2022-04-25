@@ -1,3 +1,5 @@
+import 'package:cocina_ecologica/screens/credito_screen.dart';
+import 'package:cocina_ecologica/screens/favorito_screen.dart';
 import 'package:cocina_ecologica/screens/inicio_screen.dart';
 import 'package:cocina_ecologica/widgets/bounce_tab_bar.dart';
 import 'package:flutter/material.dart';
@@ -28,16 +30,16 @@ class _HomeScreenState extends State<HomeScreen> {
               body: IndexedStack(
                 index: _currentIndex,
                 children: [
-                  Container(color: Colors.green),
+                  FavoritoScreen(),
                   const InicioScreen(),
-                  Container(color: Colors.blue,),
+                  CreditoScreen()
                 ],
               ),
               bottomNavigationBar: BounceTabBar(
                 initialIndex: _currentIndex,
                 onTabChanged: (index) {
                   setState(() {
-                    _currentIndex = index;
+                     _currentIndex = index;
                   });
                 },
                 items: [
@@ -56,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 40, height: 40),
                   ),
                   InkWell(
-                    child: _currentIndex == 0
+                    child: _currentIndex == 2
                         ? Image.asset('assets/imagenes/iconos/ICONO_MENU_CREDITOS_ON.png',
                             width: 40, height: 40)
                         : Image.asset('assets/imagenes/iconos/ICONO_MENU_CREDITOS_OFF.png',

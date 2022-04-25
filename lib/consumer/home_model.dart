@@ -69,8 +69,8 @@ class HomeModel with ChangeNotifier {
     if (_listen) {
       for (int i = 0; i < tabs.length; i++) {
         final tab = tabs[i];
-        if (scrollController.offset >= tab.offsetFrom &&
-            scrollController.offset <= tab.offsetTo &&
+        if (scrollController.positions.last.pixels >= tab.offsetFrom &&
+            scrollController.positions.last.pixels <= tab.offsetTo &&
             !tab.seleccionado) {
           onTemaSelected(i, animar: false);
           if(tabController != null) {
@@ -85,6 +85,9 @@ class HomeModel with ChangeNotifier {
   @override
   void dispose() {
     scrollController.dispose();
+    if(tabController != null) {
+      tabController.dispose();
+    }
     super.dispose();
   }
 }

@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
           ),
           title: Strings.appName,
           theme: ThemeData(
-              primarySwatch: Colors.orange,
-              fontFamily: FontFamily.helvetica77),
+              primarySwatch: Colors.green,
+              fontFamily: FontFamily.helveticaNeue97BlackCondensed),
           home: const SplashScreen()
         );
       }),
