@@ -16,12 +16,15 @@ class FavoritoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    context.watch<FavoritoModel>().getItem();
 
     return Consumer2<FavoritoModel, ContenidoModel>(
         builder: (context, model, modelContenido, child) {
       final bool hayFavorito = model.favoritoList.isNotEmpty;
       List<Contenido> contenidos =
-          modelContenido.temas.first.contenidos.take(5).toList();
+          modelContenido.contenidos.where((Contenido element) {
+        return model.favoritoList.contains(element.id) == true;
+      }).toList();
       return Scaffold(
         body: SafeArea(
           child: Container(
@@ -31,25 +34,23 @@ class FavoritoScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: Text(
-                          Strings.favoritos,
-                          style: AppTheme.estiloTitulo,
-                          textAlign: TextAlign.left,
-                        ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: Text(
+                        Strings.favoritos,
+                        style: AppTheme.estiloTitulo,
+                        textAlign: TextAlign.left,
                       ),
-                      CustomPaint(
-                        painter: LineaHorizontal(),
-                      )
-                    ],
-                  ),
+                    ),
+                    CustomPaint(
+                      painter: LineaHorizontal(),
+                    )
+                  ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Expanded(

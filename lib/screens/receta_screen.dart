@@ -1,7 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cocina_ecologica/constants/app_theme.dart';
 import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:cocina_ecologica/constants/strings.dart';
+import 'package:cocina_ecologica/consumer/favorito_model.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
@@ -12,6 +12,8 @@ import 'package:flutter_html/flutter_html.dart';
 
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 class RecetaScreen extends StatefulWidget {
   RecetaScreen({Key? key, required this.contenido}) : super(key: key);
@@ -31,11 +33,40 @@ class _RecetaScreenState extends State<RecetaScreen> {
 
   int _index = 0;
   String currentHtml = '';
+  bool esFavorito = false;
+  String imageFavIcon = 'assets/imagenes/iconos/icono_FAVORITO_OFF.png';
 
   @override
   void initState() {
     super.initState();
     currentHtml = widget.contenido.texto;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final Box box = Hive.box<int>(Strings.favoritos);
+    List favs = box.values.toList();
+    int contenidoId = widget.contenido.id;
+    if (favs.contains(contenidoId)) {
+      setState(() {
+        esFavorito = true;
+        imageFavIcon = esFavorito
+            ? 'assets/imagenes/iconos/icono_FAVORITO_ON.png'
+            : 'assets/imagenes/iconos/icono_FAVORITO_OFF.png';
+      });
+    }
+  }
+
+  _actualizarFavoritos(int contenido) {
+    var favoritoBD = Provider.of<FavoritoModel>(context, listen: false);
+    List favoritos = favoritoBD.favoritoList;
+    if (favoritos.contains(contenido)) {
+      int position = favoritos.indexOf(contenido);
+      favoritoBD.deleteItem(position);
+    } else {
+      favoritoBD.addItem(contenido);
+    }
   }
 
   //-------------------------------------------------
@@ -89,10 +120,16 @@ class _RecetaScreenState extends State<RecetaScreen> {
                   Text(widget.contenido.titulo,
                       style: AppTheme.tituloContenido),
                   InkWell(
-                    child: Image.asset(
-                        'assets/imagenes/iconos/icono_FAVORITO_OFF.png',
-                        height: 15,
-                        width: 15),
+                    child: Image.asset(imageFavIcon, height: 15, width: 15),
+                    onTap: () {
+                      setState(() {
+                        esFavorito = !esFavorito;
+                        imageFavIcon = esFavorito
+                            ? 'assets/imagenes/iconos/icono_FAVORITO_ON.png'
+                            : 'assets/imagenes/iconos/icono_FAVORITO_OFF.png';
+                        _actualizarFavoritos(widget.contenido.id);
+                      });
+                    },
                   )
                 ],
               ),
@@ -124,30 +161,14 @@ class _RecetaScreenState extends State<RecetaScreen> {
                   },
                 ),
                 SizedBox(
-                  height: 300,
-                  child: Html(data: currentHtml),
+                  height: 500,
+                  child: SingleChildScrollView(
+                      physics: const PageScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      child: Html(data: currentHtml)),
                 )
               ],
             ),
-            Text('8 Raciones', style: AppTheme.estiloContenido),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Nota: ',
-                      style: AppTheme.estiloContenido
-                          .copyWith(fontWeight: FontWeight.bold)),
-                  SizedBox(
-                    width: 120,
-                    child: AutoSizeText(faker.lorem.sentence(),
-                        maxLines: 2,
-                        style: AppTheme.estiloContenido.copyWith(
-                            color: AppColors.verdeOscuro.withOpacity(0.7))),
-                  )
-                ],
-              ),
-            )
           ],
         ),
       )),
