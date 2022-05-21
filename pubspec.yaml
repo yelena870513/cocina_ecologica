@@ -37,7 +37,8 @@ dependencies:
   mobx: ^2.0.6+1
   provider: ^6.0.1
   flutter_mobx: ^2.0.3+2
-  #flutter_html: 1.0.0
+  # Para Leer textos en formato html  
+  flutter_html: 2.2.1
   flutter_screenutil: ^5.0.2
   auto_size_text: ^3.0.0
   responsive_framework: ^0.1.7
@@ -47,6 +48,7 @@ dependencies:
   flutter_slidable: ^1.2.0
   flutter_toggle_tab: ^1.1.7
   flutter_share: ^2.0.0
+  video_player: ^2.2.15
   # Database for favorite
   hive: ^2.0.6
   hive_flutter: ^1.1.0

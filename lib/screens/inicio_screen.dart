@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/constants/strings.dart';
+import 'package:cocina_ecologica/consumer/contenido_model.dart';
 import 'package:cocina_ecologica/consumer/home_model.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:cocina_ecologica/screens/receta_screen.dart';
@@ -26,15 +27,15 @@ class _InicioScreenState extends State<InicioScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 10, vsync: this);
-     _hideAppBarNotifier = ValueNotifier(false);
+    _tabController = TabController(length: 14, vsync: this);
+    _hideAppBarNotifier = ValueNotifier(false);
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer<HomeModel>(
-      builder: (context, model, child) {
+    return Consumer2<HomeModel, ContenidoModel>(
+      builder: (context, model, modelContenido, child) {
         model.tabController = _tabController;
         return Scaffold(
           body: SafeArea(
@@ -47,7 +48,7 @@ class _InicioScreenState extends State<InicioScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Container(
+                          SizedBox(
                             height: 160,
                             child: Column(
                               children: [
@@ -55,15 +56,17 @@ class _InicioScreenState extends State<InicioScreen>
                                   Strings.welcome,
                                   style: TextStyle(
                                       fontSize: 55,
-                                      fontFamily: FontFamily.helveticaNeue97BlackCondensed,
+                                      fontFamily: FontFamily
+                                          .helveticaNeue97BlackCondensed,
                                       color: AppColors.verdeClaroOscuro),
                                 ),
                                 AutoSizeText(Strings.welcomeText,
                                     style: TextStyle(
                                         fontSize: 15,
-                                        fontFamily: FontFamily.helveticaNeueLTStdCn,
+                                        fontFamily:
+                                            FontFamily.helveticaNeueLTStdCn,
                                         color: AppColors.verdeOscuro)),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Container(
@@ -123,9 +126,10 @@ class _InicioScreenState extends State<InicioScreen>
                                   } else {
                                     return InkWell(
                                       child: ContenidoListWidget(
-                                          contenido:
-                                              model.elementos[index].contenido!),
-                                      onTap: () => _abrirPaginaReceta(context, model.elementos[index].contenido!) ,
+                                          contenido: model
+                                              .elementos[index].contenido!),
+                                      onTap: () => _abrirPaginaReceta(context,
+                                          model.elementos[index].contenido!),
                                     );
                                   }
                                 }),
@@ -139,7 +143,6 @@ class _InicioScreenState extends State<InicioScreen>
     );
   }
 
-   
   void _abrirPaginaReceta(BuildContext context, Contenido contenido) async {
     _hideAppBarNotifier.value = true;
     await Navigator.push(

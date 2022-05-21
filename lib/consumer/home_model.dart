@@ -1,3 +1,4 @@
+import 'package:cocina_ecologica/data/datasources/content_datasource.dart';
 import 'package:cocina_ecologica/model/generador.dart';
 import 'package:cocina_ecologica/model/tema.dart';
 import 'package:cocina_ecologica/proxies/tab_tema.dart';
@@ -9,7 +10,7 @@ const kTemaAltura = 27.5;
 
 class HomeModel with ChangeNotifier {
   List<TabTema> tabs = [];
-  final List<Tema> _temas = Generador.data();
+  final List<Tema> _temas = ContentDataSource.temas;
   List<Elemento> elementos = [];
   List<Tema> get temas => _temas;
   ScrollController scrollController = ScrollController();
@@ -73,7 +74,7 @@ class HomeModel with ChangeNotifier {
             scrollController.positions.last.pixels <= tab.offsetTo &&
             !tab.seleccionado) {
           onTemaSelected(i, animar: false);
-          if(tabController != null) {
+          if (tabController != null) {
             tabController.animateTo(i);
           }
           break;
@@ -85,7 +86,7 @@ class HomeModel with ChangeNotifier {
   @override
   void dispose() {
     scrollController.dispose();
-    if(tabController != null) {
+    if (tabController != null) {
       tabController.dispose();
     }
     super.dispose();

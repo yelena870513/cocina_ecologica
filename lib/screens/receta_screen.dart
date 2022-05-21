@@ -1,12 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cocina_ecologica/constants/app_theme.dart';
 import 'package:cocina_ecologica/constants/colors.dart';
+import 'package:cocina_ecologica/constants/strings.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:faker/faker.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -28,6 +30,13 @@ class _RecetaScreenState extends State<RecetaScreen> {
   final _dyTranslate = -100.0;
 
   int _index = 0;
+  String currentHtml = '';
+
+  @override
+  void initState() {
+    super.initState();
+    currentHtml = widget.contenido.texto;
+  }
 
   //-------------------------------------------------
   Widget _flightShuttleBuilder(
@@ -62,6 +71,7 @@ class _RecetaScreenState extends State<RecetaScreen> {
     Faker faker = Faker();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
           child: Container(
         decoration: UIKit.texturaPrincipal,
@@ -92,7 +102,7 @@ class _RecetaScreenState extends State<RecetaScreen> {
                 FlutterToggleTab(
                   selectedTextStyle: AppTheme.tabSeleccionadoReceta,
                   unSelectedTextStyle: AppTheme.tabDesSeleccionadoReceta,
-                  selectedBackgroundColors: [AppColors.verdeBase],
+                  selectedBackgroundColors: const [AppColors.verdeBase],
                   unSelectedBackgroundColors: [
                     AppColors.verdeClaroOscuro.withOpacity(0.9)
                   ],
@@ -100,53 +110,22 @@ class _RecetaScreenState extends State<RecetaScreen> {
                   height: 50,
                   borderRadius: 15,
                   selectedIndex: _index,
-                  labels: ['Ingredientes', 'Procedimientos'],
+                  labels: const [
+                    Strings.tabIngredientes,
+                    Strings.tabProcedimientos
+                  ],
                   selectedLabelIndex: (index) {
                     setState(() {
                       _index = index;
-                      print(_index);
+                      currentHtml = index == 0
+                          ? widget.contenido.texto
+                          : widget.contenido.description;
                     });
                   },
                 ),
-                Container(
+                SizedBox(
                   height: 300,
-                  child: _index == 0
-                      ? ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  faker.lorem.word(),
-                                  style: AppTheme.estiloContenido,
-                                ),
-                                Text(faker.lorem.word(),
-                                    style: AppTheme.estiloContenido),
-                                Text(faker.lorem.word(),
-                                    style: AppTheme.estiloContenido),
-                              ],
-                            );
-                          })
-                      : ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  faker.lorem.word(),
-                                  style: AppTheme.estiloContenido,
-                                ),
-                                Text(faker.lorem.word(),
-                                    style: AppTheme.estiloContenido),
-                                Text(faker.lorem.word(),
-                                    style: AppTheme.estiloContenido),
-                              ],
-                            );
-                          }),
+                  child: Html(data: currentHtml),
                 )
               ],
             ),

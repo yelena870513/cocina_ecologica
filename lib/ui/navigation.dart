@@ -53,7 +53,7 @@ class NavigationScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: AutoSizeText(
                 name,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 maxLines: 3,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
@@ -72,7 +72,6 @@ class NavigationScreen extends StatelessWidget {
       body: SideMenuAnimation(
         duration: const Duration(milliseconds: 1000),
         appBarBuilder: (showMenu) => AppBar(
-
             backgroundColor: Colors.transparent,
             flexibleSpace: ValueListenableBuilder<int>(
               builder: (_, value, child) {
@@ -90,13 +89,13 @@ class NavigationScreen extends StatelessWidget {
                             width: 32,
                             height: 32),
                         onTap: showMenu),
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                     InkWell(
                         child: Image.asset(
                             'assets/imagenes/iconos/boton_MAS.png',
                             width: 32,
                             height: 32)),
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                     InkWell(
                         child: Image.asset(
                             'assets/imagenes/iconos/boton_MENOS.png',

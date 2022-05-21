@@ -9,4 +9,6 @@ class Strings {
   static const String welcome = "Bienvenidos";
   static const String welcomeText = "Cocina Ecológica Cubana";
   static const String culturaCuba = "Sobre nuestra cultura culinaria";
+  static const String tabIngredientes = "Ingredientes";
+  static const String tabProcedimientos = "Procedimientos";
 }
