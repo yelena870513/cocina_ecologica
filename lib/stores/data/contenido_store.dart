@@ -22,8 +22,8 @@ abstract class _ContenidoStore with Store {
   bool success = false;
 
   @observable
-  Tema _selectedTema =
-      Tema(id: 100, subtitulo: '', titulo: '', imgs: [], audio: '');
+  Tema _selectedTema = Tema(
+      id: 100, subtitulo: '', titulo: '', imgs: [], audio: '', visible: false);
 
   @observable
   String errorMessage = '';

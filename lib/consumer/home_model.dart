@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cocina_ecologica/proxies/elemento.dart';
 
 const kContenidoAltura = 55.0;
-const kTemaAltura = 27.5;
+const kTemaAltura = 50.5;
 
 class HomeModel with ChangeNotifier {
   List<TabTema> tabs = [];
@@ -26,6 +26,9 @@ class HomeModel with ChangeNotifier {
     double offsetTo = 0.0;
     for (int i = 0; i < _temas.length; i++) {
       Tema tema = _temas[i];
+      if (tema.visible == false) {
+        continue;
+      }
 
       if (i > 0) {
         offsetFrom += _temas[i - 1].contenidos.length * kContenidoAltura;
@@ -45,7 +48,9 @@ class HomeModel with ChangeNotifier {
           offsetTo: offsetTo));
       elementos.add(Elemento(tema: tema));
       for (int j = 0; j < tema.contenidos.length; j++) {
-        elementos.add(Elemento(contenido: tema.contenidos[j]));
+        if (tema.contenidos[j].visible == true) {
+          elementos.add(Elemento(contenido: tema.contenidos[j]));
+        }
       }
     }
 

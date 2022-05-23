@@ -8,6 +8,8 @@ class ContentDataSource {
   late Map<String, dynamic> _contenidoData;
   static List<Contenido> contenidos = List.empty(growable: true);
   static List<Tema> temas = List.empty(growable: true);
+  static int cantidadTemasMenu = 0;
+  static int cantidadContenidosMenu = 0;
 
   Future<bool> loadData() async {
     String jsonString = await rootBundle.loadString('assets/data/cocina.json');
@@ -25,6 +27,13 @@ class ContentDataSource {
         return contenido.tema.id == temas[i].id;
       }).toList();
     }
+
+    cantidadTemasMenu =
+        temas.where((Tema element) => element.visible).toList().length;
+    cantidadContenidosMenu = contenidos
+        .where((Contenido element) => element.visible)
+        .toList()
+        .length;
 
     return true;
   }

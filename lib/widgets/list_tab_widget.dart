@@ -1,6 +1,7 @@
 import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/proxies/tab_tema.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class ListTabWidget extends StatelessWidget {
   const ListTabWidget({Key? key, required this.tabTema}) : super(key: key);
@@ -18,9 +19,19 @@ class ListTabWidget extends StatelessWidget {
             tabTema.tema.titulo,
             style: TextStyle(
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: ResponsiveValue(
+                      context,
+                      defaultValue: 18.0,
+                      valueWhen: [
+                        Condition.largerThan(
+                          name: MOBILE,
+                          value: 20.0,
+                        )
+                      ],
+                    ).value ??
+                    0.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: FontFamily.helvetica77),
+                fontFamily: FontFamily.helveticaNeueLTStdCn),
           ),
         ),
       ),

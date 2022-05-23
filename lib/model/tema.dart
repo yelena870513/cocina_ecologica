@@ -6,13 +6,16 @@ class Tema {
   String subtitulo;
   List<String> imgs;
   String audio;
+  bool visible;
   List<Contenido> contenidos = <Contenido>[];
-  Tema(
-      {required this.id,
-      required this.titulo,
-      required this.subtitulo,
-      required this.imgs,
-      required this.audio});
+  Tema({
+    required this.id,
+    required this.titulo,
+    required this.subtitulo,
+    required this.imgs,
+    required this.visible,
+    required this.audio,
+  });
   factory Tema.fromJson(Map<String, dynamic> tema) {
     return Tema(
       id: tema['id'],
@@ -21,6 +24,7 @@ class Tema {
       imgs: tema["img"] == null
           ? []
           : List<String>.from(tema["img"].map((x) => x)),
+      visible: tema["visible"],
       audio: '',
     );
   }

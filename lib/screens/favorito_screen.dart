@@ -26,48 +26,51 @@ class FavoritoScreen extends StatelessWidget {
         return model.favoritoList.contains(element.id) == true;
       }).toList();
       return Scaffold(
-        body: SafeArea(
-          child: Container(
-            decoration: UIKit.texturaPrincipal,
-            width: size.width,
-            height: size.height * 0.8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      child: Text(
-                        Strings.favoritos,
-                        style: AppTheme.estiloTitulo,
-                        textAlign: TextAlign.left,
+        body: Container(
+          decoration: UIKit.texturaPrincipal,
+          child: SafeArea(
+            child: Container(
+              width: size.width,
+              height: size.height * 0.8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30.0),
+                        child: Text(
+                          Strings.favoritos,
+                          style: AppTheme.estiloTitulo,
+                          textAlign: TextAlign.left,
+                        ),
                       ),
-                    ),
-                    CustomPaint(
-                      painter: LineaHorizontal(),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                    child: ListView.builder(
-                  itemBuilder: (context, index) => Slidable(
-                      key: UniqueKey(),
-                      child: ContenidoListWidget(contenido: contenidos[index]),
-                      endActionPane: ActionPane(
-                        dismissible: DismissiblePane(onDismissed: () {
-                          contenidos.removeAt(index);
-                        }),
-                        motion: const ScrollMotion(),
-                        children: [],
-                      )),
-                  itemCount: contenidos.length,
-                ))
-              ],
+                      CustomPaint(
+                        painter: LineaHorizontal(),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                      child: ListView.builder(
+                    itemBuilder: (context, index) => Slidable(
+                        key: UniqueKey(),
+                        child:
+                            ContenidoListWidget(contenido: contenidos[index]),
+                        endActionPane: ActionPane(
+                          dismissible: DismissiblePane(onDismissed: () {
+                            contenidos.removeAt(index);
+                          }),
+                          motion: const ScrollMotion(),
+                          children: [],
+                        )),
+                    itemCount: contenidos.length,
+                  ))
+                ],
+              ),
             ),
           ),
         ),

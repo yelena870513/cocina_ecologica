@@ -12,9 +12,12 @@ import 'package:cocina_ecologica/widgets/list_tab_widget.dart';
 import 'package:cocina_ecologica/widgets/tema_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class InicioScreen extends StatefulWidget {
-  const InicioScreen({Key? key}) : super(key: key);
+  const InicioScreen({Key? key, required this.cantidadTemasMenu})
+      : super(key: key);
+  final int cantidadTemasMenu;
 
   @override
   State<InicioScreen> createState() => _InicioScreenState();
@@ -27,7 +30,8 @@ class _InicioScreenState extends State<InicioScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 14, vsync: this);
+    _tabController =
+        TabController(length: widget.cantidadTemasMenu, vsync: this);
     _hideAppBarNotifier = ValueNotifier(false);
   }
 
@@ -50,59 +54,94 @@ class _InicioScreenState extends State<InicioScreen>
                         children: [
                           SizedBox(
                             height: 160,
-                            child: Column(
-                              children: [
-                                AutoSizeText(
-                                  Strings.welcome,
-                                  style: TextStyle(
-                                      fontSize: 55,
-                                      fontFamily: FontFamily
-                                          .helveticaNeue97BlackCondensed,
-                                      color: AppColors.verdeClaroOscuro),
-                                ),
-                                AutoSizeText(Strings.welcomeText,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AutoSizeText(
+                                    Strings.welcome,
                                     style: TextStyle(
-                                        fontSize: 15,
-                                        fontFamily:
-                                            FontFamily.helveticaNeueLTStdCn,
-                                        color: AppColors.verdeOscuro)),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      color: AppColors.grisBase),
-                                  height: 50,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15.0),
-                                  width: size.width * 0.90,
-                                  child: Row(
-                                    children: [
-                                      InkWell(
-                                        child: Icon(
-                                          Icons.search,
-                                          size: 30,
-                                        ),
-                                      ),
-                                      VerticalDivider(
-                                        thickness: 2,
-                                        indent: 10.0,
-                                        endIndent: 10.0,
-                                      ),
-                                      Expanded(
-                                          child: TextField(
-                                              decoration: InputDecoration(
-                                                  hintText: 'Buscar',
-                                                  border: InputBorder.none)))
-                                    ],
+                                        fontSize: ResponsiveValue(
+                                              context,
+                                              defaultValue: 35.0,
+                                              valueWhen: [
+                                                Condition.largerThan(
+                                                  name: MOBILE,
+                                                  value: 45.0,
+                                                )
+                                              ],
+                                            ).value ??
+                                            0.0,
+                                        fontFamily: FontFamily.helvetica97,
+                                        fontStyle: FontStyle.normal,
+                                        color: AppColors.verdeClaroOscuro),
                                   ),
-                                )
-                              ],
+                                  AutoSizeText(Strings.welcomeText,
+                                      style: TextStyle(
+                                          fontSize: ResponsiveValue(
+                                                context,
+                                                defaultValue: 25.0,
+                                                valueWhen: [
+                                                  Condition.largerThan(
+                                                    name: MOBILE,
+                                                    value: 35.0,
+                                                  )
+                                                ],
+                                              ).value ??
+                                              0.0,
+                                          fontFamily:
+                                              FontFamily.helveticaNeueLTStdCn,
+                                          color: AppColors.verdeOscuro)),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                        color: AppColors.grisBase),
+                                    height: 50,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0),
+                                    width: size.width * 0.90,
+                                    child: Row(
+                                      children: [
+                                        InkWell(
+                                          child: Icon(
+                                            Icons.search,
+                                            size: ResponsiveValue(
+                                                  context,
+                                                  defaultValue: 30.0,
+                                                  valueWhen: [
+                                                    Condition.largerThan(
+                                                      name: MOBILE,
+                                                      value: 35.0,
+                                                    )
+                                                  ],
+                                                ).value ??
+                                                0.0,
+                                          ),
+                                        ),
+                                        VerticalDivider(
+                                          thickness: 2,
+                                          indent: 10.0,
+                                          endIndent: 10.0,
+                                        ),
+                                        Expanded(
+                                            child: TextField(
+                                                decoration: InputDecoration(
+                                                    hintText: 'Buscar',
+                                                    border: InputBorder.none)))
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           Container(
-                            height: 80,
+                            height: 50,
                             child: TabBar(
                               onTap: model.onTemaSelected,
                               tabs: model.tabs

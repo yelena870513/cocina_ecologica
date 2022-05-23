@@ -1,6 +1,7 @@
 import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/consumer/contenido_model.dart';
 import 'package:cocina_ecologica/consumer/home_model.dart';
+import 'package:cocina_ecologica/ui/transition_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'constants/strings.dart';
+import 'consumer/controlador_ui_model.dart';
 import 'consumer/favorito_model.dart';
 import 'consumer/font_model.dart';
 import 'data/datasources/content_datasource.dart';
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
             create: (context) => FavoritoModel()),
         ChangeNotifierProvider<FontModel>(create: (context) => FontModel()),
         ChangeNotifierProvider<HomeModel>(create: (context) => HomeModel()),
+        ChangeNotifierProvider<ControladorUIModel>(
+            create: (context) => ControladorUIModel()),
         ChangeNotifierProvider<ContenidoModel>(
             create: (context) => ContenidoModel()),
       ],
@@ -54,7 +58,7 @@ class MyApp extends StatelessWidget {
             home: FutureBuilder(
               builder: (context, AsyncSnapshot<bool> snapshot) {
                 if (snapshot.data != null) {
-                  return const SplashScreen();
+                  return const TransitionScreen();
                 }
                 return const SizedBox.shrink();
               },

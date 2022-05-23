@@ -6,7 +6,7 @@ class Strings {
   static const String creditos = "Créditos";
   static const String favoritos = "Favoritos";
   static const String intro = "Introducción";
-  static const String welcome = "Bienvenidos";
+  static const String welcome = "!BIENVENIDOS!";
   static const String welcomeText = "Cocina Ecológica Cubana";
   static const String culturaCuba = "Sobre nuestra cultura culinaria";
   static const String tabIngredientes = "Ingredientes";
