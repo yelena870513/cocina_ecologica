@@ -49,6 +49,7 @@ dependencies:
   flutter_toggle_tab: ^1.1.7
   flutter_share: ^2.0.0
   video_player: ^2.2.15
+  html: ^0.15.0
   # Database for favorite
   hive: ^2.0.6
   hive_flutter: ^1.1.0

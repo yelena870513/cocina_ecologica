@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final query = MediaQuery.of(context);
@@ -35,6 +37,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   bottomNavigationBar: BounceTabBar(
+                    key: UniqueKey(),
                     initialIndex: model.indexBounceTabBar,
                     onTabChanged: (index) {
                       model.setIndexBouceTabBar(index);

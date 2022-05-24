@@ -3,6 +3,7 @@ import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/consumer/contenido_model.dart';
 import 'package:cocina_ecologica/consumer/controlador_ui_model.dart';
+import 'package:cocina_ecologica/consumer/font_model.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:cocina_ecologica/ui/culture.dart';
 import 'package:cocina_ecologica/ui/home.dart';
@@ -12,8 +13,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:side_menu_animation/side_menu_animation.dart';
 
 class NavigationScreen extends StatelessWidget {
-  NavigationScreen({Key? key}) : super(key: key);
-  final _index = ValueNotifier<int>(1);
+  const NavigationScreen({Key? key}) : super(key: key);
 
   List<Widget> _getMenuItems(List items, context) {
     return [
@@ -30,7 +30,7 @@ class NavigationScreen extends StatelessWidget {
           ),
         ),
       ),
-      _getSingleWidget('Recetas', context),
+      _getSingleWidget('Inicio', context),
       ...items.map((e) => _getSingleWidget(e.titulo, context))
     ];
   }
@@ -56,7 +56,7 @@ class NavigationScreen extends StatelessWidget {
                         context,
                         defaultValue: 18.0,
                         valueWhen: [
-                          Condition.largerThan(
+                          const Condition.largerThan(
                             name: MOBILE,
                             value: 20.0,
                           )
@@ -78,91 +78,117 @@ class NavigationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer2<ControladorUIModel, ContenidoModel>(
-      builder: (context, model, modelContenido, child) {
+    return Consumer3<ControladorUIModel, ContenidoModel, FontModel>(
+      builder: (context, model, modelContenido, modelFont, child) {
         List<Contenido> listContenido = modelContenido.contenidos
             .where((element) => element.visible == false)
             .toList();
-        return Scaffold(
-          body: SideMenuAnimation(
-            indexSelected: model.indexMenu,
-            duration: const Duration(milliseconds: 1000),
-            appBarBuilder: (showMenu) =>
-                obtenerBounceTabBar(model.indexBounceTabBar, showMenu),
-            views: [
-              HomeScreen(),
-              ...listContenido.map((e) => CultureScreen(
-                    contenido: e,
-                  ))
-            ],
-            items: _getMenuItems(listContenido, context),
+        return SideMenuAnimation.builder(
+            key: key,
+            builder: (showMenu) {
+              return Scaffold(
+                appBar: obtenerAppBar(model.indexBounceTabBar, model.indexMenu,
+                    showMenu, modelFont),
+                body: IndexedStack(
+                  children: [
+                    HomeScreen(),
+                    ...listContenido.map((e) => CultureScreen(
+                          contenido: e,
+                        ))
+                  ],
+                  index: model.indexMenu - 1,
+                ),
+              );
+            },
             selectedColor: AppColors.verdeClaroOscuro,
             unselectedColor: AppColors.verdeOscuro,
             tapOutsideToDismiss: true,
             scrimColor: Colors.black45,
+            menuWidth: size.width * 0.75,
+            items: _getMenuItems(listContenido, context),
             onItemSelected: (value) {
               if (value > 0 && value != model.indexMenu) {
                 model.setIndexMenu(value);
               }
-            },
-            menuWidth: size.width * 0.75,
-          ),
-        );
+            });
       },
     );
   }
 
-  AppBar obtenerBounceTabBar(int index, showMenu) {
-    switch (index) {
-      case 0:
-        return AppBar(
-          toolbarHeight: 0,
-        );
-      case 1:
-        return AppBar(
-            backgroundColor: Colors.transparent,
-            flexibleSpace: Padding(
-              padding: const EdgeInsets.only(top: 35.0, left: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InkWell(
-                      child: Image.asset(
-                          'assets/imagenes/iconos/icono_MENU.png',
-                          width: 32,
-                          height: 32),
-                      onTap: showMenu),
-                ],
-              ),
-            ),
-            elevation: 0);
-      case 2:
-        return AppBar(
-          toolbarHeight: 60,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        );
-      default:
-        return AppBar(
-            backgroundColor: Colors.transparent,
-            flexibleSpace: Padding(
-              padding: const EdgeInsets.only(top: 35.0, left: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InkWell(
-                      child: Image.asset('assets/imagenes/iconos/boton_MAS.png',
-                          width: 32, height: 32)),
-                  const SizedBox(width: 15),
-                  InkWell(
-                      child: Image.asset(
-                          'assets/imagenes/iconos/boton_MENOS.png',
-                          width: 32,
-                          height: 32)),
-                ],
-              ),
-            ),
-            elevation: 0);
+  AppBar obtenerAppBar(
+      int indexBottomBar, int indexMenu, showMenu, FontModel modelFont) {
+    if (indexBottomBar == 0 || indexBottomBar == 2) {
+      return AppBar(
+        toolbarHeight: 0,
+      );
     }
+    if (indexBottomBar == 1 && indexMenu == 1) {
+      return AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 35.0, left: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                    child: Image.asset('assets/imagenes/iconos/icono_MENU.png',
+                        width: 32, height: 32),
+                    onTap: showMenu),
+              ],
+            ),
+          ),
+          elevation: 0);
+    }
+    if (indexBottomBar == 1 && indexMenu > 1) {
+      return AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 35.0, left: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                    child: Image.asset('assets/imagenes/iconos/icono_MENU.png',
+                        width: 32, height: 32),
+                    onTap: showMenu),
+                const SizedBox(width: 15),
+                InkWell(
+                  child: Image.asset('assets/imagenes/iconos/boton_MAS.png',
+                      width: 32, height: 32),
+                  onTap: () {
+                    modelFont.incrementFontSizeContenido();
+                  },
+                ),
+                const SizedBox(width: 15),
+                InkWell(
+                  child: Image.asset('assets/imagenes/iconos/boton_MENOS.png',
+                      width: 32, height: 32),
+                  onTap: () {
+                    modelFont.decrementFontSizeContenido();
+                  },
+                ),
+              ],
+            ),
+          ),
+          elevation: 0);
+    }
+    return AppBar(
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.only(top: 35.0, left: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              InkWell(
+                  child: Image.asset('assets/imagenes/iconos/boton_MAS.png',
+                      width: 32, height: 32)),
+              const SizedBox(width: 15),
+              InkWell(
+                  child: Image.asset('assets/imagenes/iconos/boton_MENOS.png',
+                      width: 32, height: 32)),
+            ],
+          ),
+        ),
+        elevation: 0);
   }
 }

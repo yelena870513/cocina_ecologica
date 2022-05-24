@@ -13,7 +13,6 @@ import 'consumer/controlador_ui_model.dart';
 import 'consumer/favorito_model.dart';
 import 'consumer/font_model.dart';
 import 'data/datasources/content_datasource.dart';
-import 'ui/splash.dart';
 
 void main() async {
   await Hive.initFlutter();

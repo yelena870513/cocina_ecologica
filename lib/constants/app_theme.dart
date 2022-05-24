@@ -6,7 +6,7 @@ class AppTheme {
   AppTheme._();
 
   static TextStyle estiloTitulo = TextStyle(
-      fontFamily: FontFamily.helvetica97,
+      fontFamily: FontFamily.helveticaNeueLTStdCn,
       height: 1,
       fontSize: 50,
       color: AppColors.verdeClaroOscuro);
@@ -14,24 +14,27 @@ class AppTheme {
   static TextStyle estiloContenido = TextStyle(
       fontFamily: FontFamily.helveticaNeueLTStdCn,
       height: 2,
-      fontSize: 16,
+      fontSize: 18,
       color: AppColors.verdeOscuro);
 
   static TextStyle tituloContenido = TextStyle(
-      fontFamily: FontFamily.helvetica77,
+      fontFamily: FontFamily.helveticaNeueLTStdCn,
       height: 1.5,
       fontSize: 25,
+      fontStyle: FontStyle.normal,
       color: AppColors.verdeOscuro);
 
   static TextStyle tabSeleccionadoReceta = TextStyle(
-      fontFamily: FontFamily.helvetica77,
+      fontFamily: FontFamily.helveticaNeueLTStdCn,
       height: 1.5,
-      fontSize: 15,
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
       color: AppColors.blancoSimple);
 
   static TextStyle tabDesSeleccionadoReceta = TextStyle(
-      fontFamily: FontFamily.helvetica77,
+      fontFamily: FontFamily.helveticaNeueLTStdCn,
       height: 1.5,
-      fontSize: 15,
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
       color: AppColors.verdeOscuro);
 }

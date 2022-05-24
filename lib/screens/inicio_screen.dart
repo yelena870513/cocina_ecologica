@@ -66,7 +66,7 @@ class _InicioScreenState extends State<InicioScreen>
                                               context,
                                               defaultValue: 35.0,
                                               valueWhen: [
-                                                Condition.largerThan(
+                                                const Condition.largerThan(
                                                   name: MOBILE,
                                                   value: 45.0,
                                                 )
@@ -83,7 +83,7 @@ class _InicioScreenState extends State<InicioScreen>
                                                 context,
                                                 defaultValue: 25.0,
                                                 valueWhen: [
-                                                  Condition.largerThan(
+                                                  const Condition.largerThan(
                                                     name: MOBILE,
                                                     value: 35.0,
                                                   )
@@ -114,7 +114,7 @@ class _InicioScreenState extends State<InicioScreen>
                                                   context,
                                                   defaultValue: 30.0,
                                                   valueWhen: [
-                                                    Condition.largerThan(
+                                                    const Condition.largerThan(
                                                       name: MOBILE,
                                                       value: 35.0,
                                                     )
@@ -123,12 +123,12 @@ class _InicioScreenState extends State<InicioScreen>
                                                 0.0,
                                           ),
                                         ),
-                                        VerticalDivider(
+                                        const VerticalDivider(
                                           thickness: 2,
                                           indent: 10.0,
                                           endIndent: 10.0,
                                         ),
-                                        Expanded(
+                                        const Expanded(
                                             child: TextField(
                                                 decoration: InputDecoration(
                                                     hintText: 'Buscar',
@@ -140,7 +140,7 @@ class _InicioScreenState extends State<InicioScreen>
                               ),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: 50,
                             child: TabBar(
                               onTap: model.onTemaSelected,

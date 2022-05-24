@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import 'home.dart';
 import 'navigation.dart';
 
 class TransitionScreen extends StatefulWidget {

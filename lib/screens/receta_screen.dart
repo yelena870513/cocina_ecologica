@@ -1,22 +1,24 @@
-import 'package:cocina_ecologica/constants/app_theme.dart';
 import 'package:cocina_ecologica/constants/colors.dart';
+import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/constants/strings.dart';
 import 'package:cocina_ecologica/consumer/favorito_model.dart';
+import 'package:cocina_ecologica/consumer/font_model.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
+import 'package:cocina_ecologica/widgets/customAppBarGeneral.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:faker/faker.dart';
 import 'package:flutter_html/flutter_html.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:flutter_share/flutter_share.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class RecetaScreen extends StatefulWidget {
-  RecetaScreen({Key? key, required this.contenido}) : super(key: key);
+  const RecetaScreen({Key? key, required this.contenido}) : super(key: key);
 
   final Contenido contenido;
 
@@ -99,88 +101,214 @@ class _RecetaScreenState extends State<RecetaScreen> {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       animateItemNotifier.value = true;
     });
-    Faker faker = Faker();
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-          child: Container(
-        decoration: UIKit.texturaPrincipal,
-        width: size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Hero(
-              tag: widget.contenido.id.toString(),
-              flightShuttleBuilder: (_, animation, flightDirection, ___, ____) {
-                return _flightShuttleBuilder(animation, flightDirection);
-              },
-              child: Column(
-                children: [
-                  Text(widget.contenido.titulo,
-                      style: AppTheme.tituloContenido),
-                  InkWell(
-                    child: Image.asset(imageFavIcon, height: 15, width: 15),
-                    onTap: () {
-                      setState(() {
-                        esFavorito = !esFavorito;
-                        imageFavIcon = esFavorito
-                            ? 'assets/imagenes/iconos/icono_FAVORITO_ON.png'
-                            : 'assets/imagenes/iconos/icono_FAVORITO_OFF.png';
-                        _actualizarFavoritos(widget.contenido.id);
-                      });
-                    },
-                  )
-                ],
-              ),
-            ),
-            Column(
+    ScreenUtil.init(context,
+        designSize: size,
+        minTextAdapt: true,
+        orientation: Orientation.portrait);
+    return Consumer<FontModel>(builder: (context, modelFont, child) {
+      return Scaffold(
+        appBar: CustomAppBarGeneral(
+          seccion: Strings.creditos,
+          currentIndex: 1,
+          fuente: true,
+          contenido: widget.contenido,
+        ),
+        body: SafeArea(
+            child: Container(
+          decoration: UIKit.texturaPrincipal,
+          width: size.width,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20.0, left: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FlutterToggleTab(
-                  selectedTextStyle: AppTheme.tabSeleccionadoReceta,
-                  unSelectedTextStyle: AppTheme.tabDesSeleccionadoReceta,
-                  selectedBackgroundColors: const [AppColors.verdeBase],
-                  unSelectedBackgroundColors: [
-                    AppColors.verdeClaroOscuro.withOpacity(0.9)
-                  ],
-                  width: 90,
-                  height: 50,
-                  borderRadius: 15,
-                  selectedIndex: _index,
-                  labels: const [
-                    Strings.tabIngredientes,
-                    Strings.tabProcedimientos
-                  ],
-                  selectedLabelIndex: (index) {
-                    setState(() {
-                      _index = index;
-                      currentHtml = index == 0
-                          ? widget.contenido.texto
-                          : widget.contenido.description;
-                    });
+                Hero(
+                  tag: widget.contenido.id.toString(),
+                  flightShuttleBuilder:
+                      (_, animation, flightDirection, ___, ____) {
+                    return _flightShuttleBuilder(animation, flightDirection);
                   },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(widget.contenido.titulo,
+                          style: TextStyle(
+                              fontFamily: FontFamily.helveticaNeueLTStdCn,
+                              height: 1.5,
+                              fontSize: 23,
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.normal,
+                              color: AppColors.verdeOscuro)),
+                      InkWell(
+                        child: Image.asset(imageFavIcon, height: 30, width: 30),
+                        onTap: () {
+                          setState(() {
+                            esFavorito = !esFavorito;
+                            imageFavIcon = esFavorito
+                                ? 'assets/imagenes/iconos/icono_FAVORITO_ON.png'
+                                : 'assets/imagenes/iconos/icono_FAVORITO_OFF.png';
+                            _actualizarFavoritos(widget.contenido.id);
+                          });
+                        },
+                      )
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: 500,
-                  child: SingleChildScrollView(
-                      physics: const PageScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      child: Html(data: currentHtml)),
-                )
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(right: 30.0),
+                  child: Column(
+                    children: [
+                      FlutterToggleTab(
+                        selectedTextStyle: TextStyle(
+                            fontFamily: FontFamily.helveticaNeueLTStdCn,
+                            height: 1.5,
+                            fontSize: ResponsiveValue(
+                                  context,
+                                  defaultValue: 18.0,
+                                  valueWhen: [
+                                    const Condition.largerThan(
+                                      name: MOBILE,
+                                      value: 20.0,
+                                    )
+                                  ],
+                                ).value ??
+                                0.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.blancoSimple),
+                        unSelectedTextStyle: TextStyle(
+                            fontFamily: FontFamily.helveticaNeueLTStdCn,
+                            height: 1.5,
+                            fontSize: ResponsiveValue(
+                                  context,
+                                  defaultValue: 18.0,
+                                  valueWhen: [
+                                    const Condition.largerThan(
+                                      name: MOBILE,
+                                      value: 20.0,
+                                    )
+                                  ],
+                                ).value ??
+                                0.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.verdeOscuro),
+                        selectedBackgroundColors: [
+                          AppColors.verdeClaroOscuro.withOpacity(0.9)
+                        ],
+                        unSelectedBackgroundColors: const [AppColors.verdeBase],
+                        width: 85,
+                        height: 50,
+                        borderRadius: 15,
+                        selectedIndex: _index,
+                        labels: const [
+                          Strings.tabIngredientes,
+                          Strings.tabProcedimientos
+                        ],
+                        selectedLabelIndex: (index) {
+                          setState(() {
+                            _index = index;
+                            currentHtml = index == 0
+                                ? widget.contenido.texto
+                                : widget.contenido.description;
+                            print(currentHtml);
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: ResponsiveValue(
+                              context,
+                              defaultValue: 480.0,
+                              valueWhen: [
+                                const Condition.largerThan(
+                                  name: MOBILE,
+                                  value: 600.0,
+                                )
+                              ],
+                            ).value ??
+                            0.0,
+                        child: SingleChildScrollView(
+                            physics: const PageScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            child: Html(data: currentHtml, style: {
+                              // tables will have the below background color
+                              "p": Style(
+                                fontFamily: FontFamily.helveticaNeueLTStdCn,
+                                lineHeight: LineHeight.number(1),
+                                maxLines: 3,
+                                fontSize: FontSize(
+                                  ResponsiveValue(
+                                        context,
+                                        defaultValue: ScreenUtil()
+                                            .setSp(modelFont.fontSizeContenido),
+                                        valueWhen: [
+                                          Condition.largerThan(
+                                            name: MOBILE,
+                                            value: ScreenUtil().setSp(modelFont
+                                                .fontSizeContenidoTable),
+                                          )
+                                        ],
+                                      ).value ??
+                                      0.0,
+                                ),
+                              ),
+                              "span": Style(
+                                fontFamily: FontFamily.helveticaNeueLTStdCn,
+                                lineHeight: LineHeight.number(1.5),
+                                fontSize: FontSize(
+                                  ResponsiveValue(
+                                        context,
+                                        defaultValue: ScreenUtil()
+                                            .setSp(modelFont.fontSizeContenido),
+                                        valueWhen: [
+                                          Condition.largerThan(
+                                            name: MOBILE,
+                                            value: ScreenUtil().setSp(modelFont
+                                                .fontSizeContenidoTable),
+                                          )
+                                        ],
+                                      ).value ??
+                                      0.0,
+                                ),
+                              ),
+                              "td": Style(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                alignment: Alignment.center,
+                                textAlign: TextAlign.center,
+                                width: ResponsiveValue(
+                                      context,
+                                      defaultValue: 105.0,
+                                      valueWhen: [
+                                        const Condition.largerThan(
+                                          name: MOBILE,
+                                          value: 110.0,
+                                        )
+                                      ],
+                                    ).value ??
+                                    0.0,
+                                height: 65,
+                              )
+                            }, customRender: {
+                              "table": (context, child) {
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  child: (context.tree as TableLayoutElement)
+                                      .toWidget(context),
+                                );
+                              },
+                            })),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
-          ],
-        ),
-      )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FlutterShare.share(
-              title: widget.contenido.texto, text: widget.contenido.titulo);
-        },
-        child: Image.asset('assets/imagenes/iconos/icono_COMPARTIR.png'),
-        elevation: 5,
-        enableFeedback: true,
-      ),
-    );
+          ),
+        )),
+      );
+    });
   }
 }

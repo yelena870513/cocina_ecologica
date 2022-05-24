@@ -11,7 +11,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class FavoritoScreen extends StatelessWidget {
-  FavoritoScreen({Key? key}) : super(key: key);
+  const FavoritoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,6 @@ class FavoritoScreen extends StatelessWidget {
 
     return Consumer2<FavoritoModel, ContenidoModel>(
         builder: (context, model, modelContenido, child) {
-      final bool hayFavorito = model.favoritoList.isNotEmpty;
       List<Contenido> contenidos =
           modelContenido.contenidos.where((Contenido element) {
         return model.favoritoList.contains(element.id) == true;
@@ -29,7 +28,7 @@ class FavoritoScreen extends StatelessWidget {
         body: Container(
           decoration: UIKit.texturaPrincipal,
           child: SafeArea(
-            child: Container(
+            child: SizedBox(
               width: size.width,
               height: size.height * 0.8,
               child: Column(

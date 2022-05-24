@@ -1,9 +1,11 @@
-
 import 'package:cocina_ecologica/constants/valores_defecto.dart';
 import 'package:flutter/material.dart';
 
 class FontModel with ChangeNotifier {
   double _fontSizeContenido = ValoresPorDefecto.fontSizeContenido;
+  double _fontSizeContenidoTable = ValoresPorDefecto.fontSizeContenidoTable;
+  double _fontSizeContenidoTableMax =
+      ValoresPorDefecto.fontSizeContenidoTableMax;
   double _fontSizeContenidoExtra = ValoresPorDefecto.fontSizeContenidoExtra;
   double _fontSizeBuscadorResultado =
       ValoresPorDefecto.fontSizeBuscadorResultado;
@@ -12,6 +14,8 @@ class FontModel with ChangeNotifier {
   double _fontSizeTitulo = ValoresPorDefecto.fontSizeTitulo;
 
   double get fontSizeContenido => _fontSizeContenido;
+  double get fontSizeContenidoTable => _fontSizeContenidoTable;
+  double get fontSizeContenidoTableMax => _fontSizeContenidoTableMax;
   double get fontSizeContenidoExtra => _fontSizeContenidoExtra;
   double get fontSizeBuscadorResultado => _fontSizeBuscadorResultado;
   double get fontSizeCreditoCargo => _fontSizeCreditoCargo;
@@ -21,6 +25,10 @@ class FontModel with ChangeNotifier {
   void incrementFontSizeContenido() {
     if (_fontSizeContenido < ValoresPorDefecto.fontSizeContenidoMax) {
       _fontSizeContenido++;
+      notifyListeners();
+    }
+    if (_fontSizeContenidoTable < ValoresPorDefecto.fontSizeContenidoTableMax) {
+      _fontSizeContenidoTable++;
       notifyListeners();
     }
   }
@@ -63,6 +71,10 @@ class FontModel with ChangeNotifier {
 
   void decrementFontSizeContenido() {
     if (_fontSizeContenido > ValoresPorDefecto.fontSizeContenido) {
+      _fontSizeContenido--;
+      notifyListeners();
+    }
+    if (_fontSizeContenidoTable > ValoresPorDefecto.fontSizeContenidoTable) {
       _fontSizeContenido--;
       notifyListeners();
     }

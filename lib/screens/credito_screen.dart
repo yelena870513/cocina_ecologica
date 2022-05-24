@@ -7,15 +7,15 @@ import 'package:faker/faker.dart';
 
 class CreditoScreen extends StatelessWidget {
   CreditoScreen({Key? key}) : super(key: key);
-  
+
   List<String> nombres = List.generate(7, (index) {
     Faker faker = Faker();
-   return faker.person.name();
+    return faker.person.name();
   });
 
-   List<String> cargos = List.generate(7, (index) {
+  List<String> cargos = List.generate(7, (index) {
     Faker faker = Faker();
-   return faker.job.title();
+    return faker.job.title();
   });
 
   @override
@@ -30,23 +30,29 @@ class CreditoScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 30.0),
-                    child: Text(Strings.creditos, style: AppTheme.estiloTitulo, textAlign: TextAlign.left,),
+                    child: Text(
+                      Strings.creditos,
+                      style: AppTheme.estiloTitulo,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                  CustomPaint(painter: LineaHorizontal(),)
-                ],),
+                  CustomPaint(
+                    painter: LineaHorizontal(),
+                  )
+                ],
               ),
               const SizedBox(
                 height: 70,
               ),
               Expanded(
                   child: ListView.builder(
-                itemBuilder: (context, index) => _getCreditoWidget(nombres[index], cargos[index]),
+                itemBuilder: (context, index) =>
+                    _getCreditoWidget(nombres[index], cargos[index]),
                 itemCount: nombres.length,
               ))
             ],
@@ -58,11 +64,17 @@ class CreditoScreen extends StatelessWidget {
 
   Widget _getCreditoWidget(String nombre, String cargo) {
     return Column(
-       crossAxisAlignment: CrossAxisAlignment.center,
-       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(cargo, style: AppTheme.estiloTitulo.copyWith(fontSize: 25),),
-        Text(nombre, style: AppTheme.estiloContenido,)
+        Text(
+          cargo,
+          style: AppTheme.estiloTitulo.copyWith(fontSize: 25),
+        ),
+        Text(
+          nombre,
+          style: AppTheme.estiloContenido,
+        )
       ],
     );
   }

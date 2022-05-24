@@ -26,7 +26,7 @@ class Contenido {
       orden: contenido['orden'],
       titulo: contenido['titulo'],
       texto: contenido['texto'],
-      description: contenido['description'],
+      description: '<span>' + contenido['description'] + '</span>',
       tema: Tema.fromJson(contenido['tema']),
       visible: contenido['visible'],
       imgs: contenido["img"] == null
