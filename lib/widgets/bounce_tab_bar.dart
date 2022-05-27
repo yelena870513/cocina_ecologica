@@ -1,4 +1,3 @@
-
 import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -82,24 +81,22 @@ class _BounceTabBarState extends State<BounceTabBar>
             currentWidth = width -
                 (_movement * _animTabBarIn.value) +
                 (_movement * _animTabBarOut.value);
-            currentElevation = -_movement * _animElevationIn.value +
-                (_movement - kBottomNavigationBarHeight / 4) *
-                    _animElevationOut.value;
+
             return Container(
-              padding: const EdgeInsets.only(top: 20.0),
+              padding: const EdgeInsets.only(top: 0.0),
               decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.transparent, width: 1.0,)
-                )
-              ),
+                  border: Border(
+                      top: BorderSide(
+                color: Colors.transparent,
+                width: 1.0,
+              ))),
               child: Center(
                 child: Container(
                   width: currentWidth,
                   decoration: BoxDecoration(
                       color: widget.backgroundColor,
                       borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(5),
-                          topLeft: Radius.circular(5))),
+                          topRight: Radius.zero, topLeft: Radius.zero)),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: List.generate(widget.items.length, (index) {

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class FontModel with ChangeNotifier {
   double _fontSizeContenido = ValoresPorDefecto.fontSizeContenido;
+  double _fontSizeCargo = ValoresPorDefecto.fontSizeCargo;
   double _fontSizeContenidoTable = ValoresPorDefecto.fontSizeContenidoTable;
+  double _fontSizeCargoTable = ValoresPorDefecto.fontSizeCargoTable;
   double _fontSizeContenidoTableMax =
       ValoresPorDefecto.fontSizeContenidoTableMax;
   double _fontSizeContenidoExtra = ValoresPorDefecto.fontSizeContenidoExtra;
@@ -14,7 +16,9 @@ class FontModel with ChangeNotifier {
   double _fontSizeTitulo = ValoresPorDefecto.fontSizeTitulo;
 
   double get fontSizeContenido => _fontSizeContenido;
+  double get fontSizeCargo => _fontSizeCargo;
   double get fontSizeContenidoTable => _fontSizeContenidoTable;
+  double get fontSizeCargoTable => _fontSizeCargoTable;
   double get fontSizeContenidoTableMax => _fontSizeContenidoTableMax;
   double get fontSizeContenidoExtra => _fontSizeContenidoExtra;
   double get fontSizeBuscadorResultado => _fontSizeBuscadorResultado;
@@ -27,8 +31,16 @@ class FontModel with ChangeNotifier {
       _fontSizeContenido++;
       notifyListeners();
     }
+    if (_fontSizeCargo < ValoresPorDefecto.fontSizeCargoMax) {
+      _fontSizeCargo++;
+      notifyListeners();
+    }
     if (_fontSizeContenidoTable < ValoresPorDefecto.fontSizeContenidoTableMax) {
       _fontSizeContenidoTable++;
+      notifyListeners();
+    }
+    if (_fontSizeCargoTable < ValoresPorDefecto.fontSizeCargoTableMax) {
+      _fontSizeCargoTable++;
       notifyListeners();
     }
   }
@@ -75,7 +87,15 @@ class FontModel with ChangeNotifier {
       notifyListeners();
     }
     if (_fontSizeContenidoTable > ValoresPorDefecto.fontSizeContenidoTable) {
-      _fontSizeContenido--;
+      _fontSizeContenidoTable--;
+      notifyListeners();
+    }
+    if (_fontSizeCargo > ValoresPorDefecto.fontSizeCargo) {
+      _fontSizeCargo--;
+      notifyListeners();
+    }
+    if (_fontSizeCargoTable > ValoresPorDefecto.fontSizeCargoTable) {
+      _fontSizeCargoTable--;
       notifyListeners();
     }
   }

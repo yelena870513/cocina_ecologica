@@ -18,7 +18,7 @@ class TemaListWidget extends StatelessWidget {
                   context,
                   defaultValue: 20.0,
                   valueWhen: [
-                    Condition.largerThan(
+                    const Condition.largerThan(
                       name: MOBILE,
                       value: 22.0,
                     )

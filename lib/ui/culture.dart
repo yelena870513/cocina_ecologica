@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/consumer/controlador_ui_model.dart';
@@ -24,83 +25,94 @@ class CultureScreen extends StatelessWidget {
     return Consumer2<ControladorUIModel, FontModel>(
       builder: (context, model, modelFont, child) {
         return Scaffold(
+          bottomNavigationBar: Container(
+            height: kBottomNavigationBarHeight,
+            color: AppColors.verdeOscuro,
+          ),
           extendBody: true,
           resizeToAvoidBottomInset: true,
-          body: InteractiveViewer(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              width: size.width,
-              height: size.height,
-              decoration: UIKit.texturaPrincipal,
-              child: Column(
-                children: [
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(
-                        contenido.titulo.toUpperCase(),
-                        style: TextStyle(
-                            height: 1,
-                            fontSize: ResponsiveValue(
-                                  context,
-                                  defaultValue: 35.0,
-                                  valueWhen: [
-                                    const Condition.largerThan(
-                                      name: MOBILE,
-                                      value: 45.0,
-                                    )
-                                  ],
-                                ).value ??
-                                0.0,
-                            fontFamily:
-                                FontFamily.helveticaNeue97BlackCondensed,
-                            color: AppColors.verdeClaroOscuro.withOpacity(0.8)),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: ResponsiveValue(
-                          context,
-                          defaultValue: size.height * 0.70,
-                          valueWhen: [
-                            Condition.largerThan(
-                              name: MOBILE,
-                              value: size.height * 0.80,
-                            )
-                          ],
-                        ).value ??
-                        0.0,
-                    child: SingleChildScrollView(
-                      physics: const PageScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      child: Html(
-                        data: contenido.texto,
-                        style: {
-                          // tables will have the below background color
-                          "p": Style(
-                            fontFamily: FontFamily.helveticaNeueLTStdCn,
-                            lineHeight: LineHeight.number(1.5),
-                            fontSize: FontSize(
-                              ResponsiveValue(
-                                    context,
-                                    defaultValue: ScreenUtil()
-                                        .setSp(modelFont.fontSizeContenido),
-                                    valueWhen: [
-                                      Condition.largerThan(
-                                        name: MOBILE,
-                                        value: ScreenUtil().setSp(
-                                            modelFont.fontSizeContenidoTable),
-                                      )
-                                    ],
-                                  ).value ??
-                                  0.0,
-                            ),
+          body: SizedBox(
+            height: size.height,
+            child: InteractiveViewer(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                width: size.width,
+                decoration: UIKit.texturaPrincipal,
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Container(
+                          margin: EdgeInsets.only(top: 22.0),
+                          child: AutoSizeText(
+                            contenido.titulo.toUpperCase(),
+                            maxLines: 3,
+                            style: TextStyle(
+                                height: 1,
+                                fontSize: ResponsiveValue(
+                                      context,
+                                      defaultValue: 35.0,
+                                      valueWhen: [
+                                        const Condition.largerThan(
+                                          name: MOBILE,
+                                          value: 45.0,
+                                        )
+                                      ],
+                                    ).value ??
+                                    0.0,
+                                fontFamily:
+                                    FontFamily.helveticaNeue97BlackCondensed,
+                                color: AppColors.verdeClaroOscuro
+                                    .withOpacity(0.8)),
                           ),
-                        },
+                        ),
                       ),
                     ),
-                  )
-                ],
+                    SizedBox(
+                      height: ResponsiveValue(
+                            context,
+                            defaultValue: size.height * 0.65,
+                            valueWhen: [
+                              Condition.largerThan(
+                                name: MOBILE,
+                                value: size.height * 0.75,
+                              )
+                            ],
+                          ).value ??
+                          0.0,
+                      child: SingleChildScrollView(
+                        physics: const PageScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        child: Html(
+                          data: contenido.texto,
+                          style: {
+                            // tables will have the below background color
+                            "p": Style(
+                              fontFamily: FontFamily.helveticaNeueLTStdCn,
+                              lineHeight: LineHeight.number(1.5),
+                              fontSize: FontSize(
+                                ResponsiveValue(
+                                      context,
+                                      defaultValue: ScreenUtil()
+                                          .setSp(modelFont.fontSizeContenido),
+                                      valueWhen: [
+                                        Condition.largerThan(
+                                          name: MOBILE,
+                                          value: ScreenUtil().setSp(
+                                              modelFont.fontSizeContenidoTable),
+                                        )
+                                      ],
+                                    ).value ??
+                                    0.0,
+                              ),
+                            ),
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

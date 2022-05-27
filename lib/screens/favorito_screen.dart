@@ -25,12 +25,13 @@ class FavoritoScreen extends StatelessWidget {
         return model.favoritoList.contains(element.id) == true;
       }).toList();
       return Scaffold(
+        extendBodyBehindAppBar: true,
         body: Container(
           decoration: UIKit.texturaPrincipal,
           child: SafeArea(
             child: SizedBox(
               width: size.width,
-              height: size.height * 0.8,
+              height: size.height,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -38,7 +39,7 @@ class FavoritoScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 30.0),
+                        padding: const EdgeInsets.only(top: 30, left: 30.0),
                         child: Text(
                           Strings.favoritos,
                           style: AppTheme.estiloTitulo,
@@ -55,15 +56,16 @@ class FavoritoScreen extends StatelessWidget {
                   ),
                   Expanded(
                       child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     itemBuilder: (context, index) => Slidable(
-                        key: UniqueKey(),
+                        key: Key(index.toString()),
                         child:
                             ContenidoListWidget(contenido: contenidos[index]),
                         endActionPane: ActionPane(
                           dismissible: DismissiblePane(onDismissed: () {
                             contenidos.removeAt(index);
                           }),
-                          motion: const ScrollMotion(),
+                          motion: ScrollMotion(),
                           children: [],
                         )),
                     itemCount: contenidos.length,
@@ -76,4 +78,6 @@ class FavoritoScreen extends StatelessWidget {
       );
     });
   }
+
+  void doNothing(BuildContext context) {}
 }

@@ -66,7 +66,7 @@ class _TransitionScreenState extends State<TransitionScreen>
         pageBuilder: (context, animation1, animation2) {
           return FadeTransition(
             opacity: animation1,
-            child: NavigationScreen(),
+            child: const NavigationScreen(),
           );
         },
         transitionDuration: const Duration(milliseconds: 700)));

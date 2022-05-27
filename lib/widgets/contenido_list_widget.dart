@@ -12,7 +12,7 @@ class ContenidoListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: Card(
           elevation: 6,
           shape:
@@ -27,7 +27,17 @@ class ContenidoListWidget extends StatelessWidget {
                 height: 5,
               ),
               SizedBox(
-                width: 200,
+                width: ResponsiveValue(
+                      context,
+                      defaultValue: 220.0,
+                      valueWhen: [
+                        const Condition.largerThan(
+                          name: MOBILE,
+                          value: 310.0,
+                        )
+                      ],
+                    ).value ??
+                    0.0,
                 child: AutoSizeText(
                   contenido.titulo,
                   maxLines: 2,
@@ -36,7 +46,7 @@ class ContenidoListWidget extends StatelessWidget {
                             context,
                             defaultValue: 18.0,
                             valueWhen: [
-                              Condition.largerThan(
+                              const Condition.largerThan(
                                 name: MOBILE,
                                 value: 20.0,
                               )

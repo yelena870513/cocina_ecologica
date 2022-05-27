@@ -1,5 +1,6 @@
 import 'package:cocina_ecologica/data/datasources/content_datasource.dart';
-import 'package:cocina_ecologica/model/generador.dart';
+import 'package:cocina_ecologica/model/contenido.dart';
+
 import 'package:cocina_ecologica/model/tema.dart';
 import 'package:cocina_ecologica/proxies/tab_tema.dart';
 import 'package:flutter/material.dart';
@@ -24,19 +25,28 @@ class HomeModel with ChangeNotifier {
   void init() {
     double offsetFrom = 0.0;
     double offsetTo = 0.0;
-    for (int i = 0; i < _temas.length; i++) {
-      Tema tema = _temas[i];
-      if (tema.visible == false) {
-        continue;
-      }
+    List<Tema> temasMostrar =
+        _temas.where((element) => element.visible == true).toList();
+    for (int i = 0; i < temasMostrar.length; i++) {
+      Tema tema = temasMostrar[i];
 
       if (i > 0) {
-        offsetFrom += _temas[i - 1].contenidos.length * kContenidoAltura;
+        offsetFrom += temasMostrar[i - 1]
+                .contenidos
+                .where((element) => element.visible == true)
+                .toList()
+                .length *
+            kContenidoAltura;
       }
 
-      if (i < _temas.length - 1) {
-        offsetTo =
-            offsetFrom + _temas[i + 1].contenidos.length * kContenidoAltura;
+      if (i < temasMostrar.length - 1) {
+        offsetTo = offsetFrom +
+            temasMostrar[i + 1]
+                    .contenidos
+                    .where((element) => element.visible == true)
+                    .toList()
+                    .length *
+                kContenidoAltura;
       } else {
         offsetTo = double.infinity;
       }
@@ -47,12 +57,13 @@ class HomeModel with ChangeNotifier {
           offsetFrom: kTemaAltura * i + offsetFrom,
           offsetTo: offsetTo));
       elementos.add(Elemento(tema: tema));
-      for (int j = 0; j < tema.contenidos.length; j++) {
-        if (tema.contenidos[j].visible == true) {
-          elementos.add(Elemento(contenido: tema.contenidos[j]));
-        }
+      List<Contenido> contenidoMostrar =
+          tema.contenidos.where((element) => element.visible == true).toList();
+      for (int j = 0; j < contenidoMostrar.length; j++) {
+        elementos.add(Elemento(contenido: contenidoMostrar[j]));
       }
     }
+    tabs[0] = tabs[0].copyWith(true);
 
     scrollController.addListener(_onScrollListener);
   }

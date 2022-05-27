@@ -8,7 +8,6 @@ import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:cocina_ecologica/ui/culture.dart';
 import 'package:cocina_ecologica/ui/home.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
-import 'package:cocina_ecologica/widgets/line_horizontal_gruesa.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -145,49 +144,52 @@ class NavigationScreen extends StatelessWidget {
       return AppBar(
           backgroundColor: Colors.transparent,
           flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 30.0, left: 30),
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InkWell(
-                      child: Image.asset(
-                          'assets/imagenes/iconos/icono_MENU.png',
-                          width: 38,
-                          height: 38),
-                      onTap: showMenu),
-                  const SizedBox(width: 15),
-                  InkWell(
-                    child: Image.asset('assets/imagenes/iconos/boton_MAS.png',
+            padding: const EdgeInsets.only(top: 35.0, left: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                    child: Image.asset('assets/imagenes/iconos/icono_MENU.png',
                         width: 38, height: 38),
-                    onTap: () {
-                      modelFont.incrementFontSizeContenido();
-                    },
-                  ),
-                  const SizedBox(width: 15),
-                  InkWell(
-                    child: Image.asset('assets/imagenes/iconos/boton_MENOS.png',
-                        width: 38, height: 38),
-                    onTap: () {
-                      modelFont.decrementFontSizeContenido();
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const SizedBox(height: 15.0),
-                  CustomPaint(
-                      painter: LineaHorizontalGruesa(2,
-                          const Offset(250.0, 0.0), const Offset(-250.0, 0.0))),
-                ],
-              )
-            ]),
+                    onTap: showMenu),
+                const SizedBox(width: 15),
+                InkWell(
+                  child: Image.asset('assets/imagenes/iconos/boton_MAS.png',
+                      width: 38, height: 38),
+                  onTap: () {
+                    modelFont.incrementFontSizeContenido();
+                  },
+                ),
+                const SizedBox(width: 15),
+                InkWell(
+                  child: Image.asset('assets/imagenes/iconos/boton_MENOS.png',
+                      width: 38, height: 38),
+                  onTap: () {
+                    modelFont.decrementFontSizeContenido();
+                  },
+                ),
+              ],
+            ),
           ),
           elevation: 0);
     }
     return AppBar(
-      toolbarHeight: 0,
-    );
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.only(top: 35.0, left: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              InkWell(
+                  child: Image.asset('assets/imagenes/iconos/boton_MAS.png',
+                      width: 38, height: 38)),
+              const SizedBox(width: 15),
+              InkWell(
+                  child: Image.asset('assets/imagenes/iconos/boton_MENOS.png',
+                      width: 38, height: 38)),
+            ],
+          ),
+        ),
+        elevation: 0);
   }
 }

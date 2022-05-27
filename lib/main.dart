@@ -7,16 +7,19 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
 import 'constants/strings.dart';
 import 'consumer/controlador_ui_model.dart';
 import 'consumer/favorito_model.dart';
 import 'consumer/font_model.dart';
 import 'data/datasources/content_datasource.dart';
+import 'model/registro_busqueda.dart';
 
 void main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter(RegistroBusquedaAdapter());
   await Hive.openBox<int>(Strings.favoritos);
+  await Hive.openBox<RegistroBusqueda>(Strings.dbBusqueda);
+
   runApp(MyApp());
 }
 

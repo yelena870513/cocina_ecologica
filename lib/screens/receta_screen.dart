@@ -9,7 +9,6 @@ import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
 import 'package:cocina_ecologica/widgets/customAppBarGeneral.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:faker/faker.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
@@ -108,18 +107,23 @@ class _RecetaScreenState extends State<RecetaScreen> {
         orientation: Orientation.portrait);
     return Consumer<FontModel>(builder: (context, modelFont, child) {
       return Scaffold(
+        bottomNavigationBar: Container(
+          height: kBottomNavigationBarHeight,
+          color: AppColors.verdeOscuro,
+        ),
+        extendBody: true,
+        resizeToAvoidBottomInset: true,
         appBar: CustomAppBarGeneral(
           seccion: Strings.creditos,
           currentIndex: 1,
           fuente: true,
           contenido: widget.contenido,
         ),
-        body: SafeArea(
-            child: Container(
+        body: Container(
           decoration: UIKit.texturaPrincipal,
           width: size.width,
           child: Padding(
-            padding: const EdgeInsets.only(top: 20.0, left: 20.0),
+            padding: const EdgeInsets.only(top: 20.0, left: 15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -165,7 +169,7 @@ class _RecetaScreenState extends State<RecetaScreen> {
                       FlutterToggleTab(
                         selectedTextStyle: TextStyle(
                             fontFamily: FontFamily.helveticaNeueLTStdCn,
-                            height: 1.5,
+                            height: 1,
                             fontSize: ResponsiveValue(
                                   context,
                                   defaultValue: 18.0,
@@ -181,7 +185,7 @@ class _RecetaScreenState extends State<RecetaScreen> {
                             color: AppColors.blancoSimple),
                         unSelectedTextStyle: TextStyle(
                             fontFamily: FontFamily.helveticaNeueLTStdCn,
-                            height: 1.5,
+                            height: 1,
                             fontSize: ResponsiveValue(
                                   context,
                                   defaultValue: 18.0,
@@ -213,14 +217,13 @@ class _RecetaScreenState extends State<RecetaScreen> {
                             currentHtml = index == 0
                                 ? widget.contenido.texto
                                 : widget.contenido.description;
-                            print(currentHtml);
                           });
                         },
                       ),
                       SizedBox(
                         height: ResponsiveValue(
                               context,
-                              defaultValue: 480.0,
+                              defaultValue: 420.0,
                               valueWhen: [
                                 const Condition.largerThan(
                                   name: MOBILE,
@@ -288,7 +291,7 @@ class _RecetaScreenState extends State<RecetaScreen> {
                                       ],
                                     ).value ??
                                     0.0,
-                                height: 65,
+                                height: 70,
                               )
                             }, customRender: {
                               "table": (context, child) {
@@ -307,7 +310,7 @@ class _RecetaScreenState extends State<RecetaScreen> {
               ],
             ),
           ),
-        )),
+        ),
       );
     });
   }

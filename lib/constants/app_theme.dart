@@ -14,7 +14,7 @@ class AppTheme {
   static TextStyle estiloContenido = TextStyle(
       fontFamily: FontFamily.helveticaNeueLTStdCn,
       height: 2,
-      fontSize: 18,
+      fontSize: 20,
       color: AppColors.verdeOscuro);
 
   static TextStyle tituloContenido = TextStyle(

@@ -25,16 +25,19 @@ class HomeScreen extends StatelessWidget {
                 child: Scaffold(
                   extendBody: true,
                   resizeToAvoidBottomInset: true,
-                  body: IndexedStack(
-                    index: model.indexBounceTabBar,
-                    children: [
-                      const PrincipalScreen(),
-                      InicioScreen(
-                          cantidadTemasMenu:
-                              ContentDataSource.cantidadTemasMenu),
-                      FavoritoScreen(),
-                      CreditoScreen()
-                    ],
+                  body: Container(
+                    width: query.size.width,
+                    child: IndexedStack(
+                      index: model.indexBounceTabBar,
+                      children: [
+                        const PrincipalScreen(),
+                        InicioScreen(
+                            cantidadTemasMenu:
+                                ContentDataSource.cantidadTemasMenu),
+                        const FavoritoScreen(),
+                        CreditoScreen()
+                      ],
+                    ),
                   ),
                   bottomNavigationBar: BounceTabBar(
                     key: UniqueKey(),

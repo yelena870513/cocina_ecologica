@@ -1,8 +1,12 @@
 class ValoresPorDefecto {
   static double fontSizeContenido = 18;
+  static double fontSizeCargo = 25;
   static double fontSizeContenidoTable = 20;
-  static double fontSizeContenidoMax = 24;
-  static double fontSizeContenidoTableMax = 26;
+  static double fontSizeCargoTable = 25;
+  static double fontSizeContenidoMax = 27;
+  static double fontSizeCargoMax = 25;
+  static double fontSizeContenidoTableMax = 23;
+  static double fontSizeCargoTableMax = 27;
 
   static double fontSizeContenidoExtra = 16;
   static double fontSizeTitulo = 20;
