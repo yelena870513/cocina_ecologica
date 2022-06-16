@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cu.citmatel.cocina_ecologica">
    <application
-        android:label="cocina_ecologica"
+        android:label="Cocina ecológica"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

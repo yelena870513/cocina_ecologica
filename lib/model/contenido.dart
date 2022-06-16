@@ -1,13 +1,40 @@
+import 'package:cocina_ecologica/model/tema.dart';
 
+class Contenido {
+  int id;
+  int orden;
+  String titulo;
+  String texto;
+  String description;
+  Tema tema;
+  bool visible;
+  List<String> imgs;
+  String icono;
 
-class Contenido{
-  final String titulo;
-  final String texto;
-  final int orden;
+  Contenido(
+      {required this.id,
+      required this.orden,
+      required this.titulo,
+      required this.texto,
+      required this.description,
+      required this.tema,
+      required this.visible,
+      required this.imgs,
+      required this.icono});
 
-  const Contenido ({
-    required this.titulo,
-    required this.texto,
-    required this.orden
-  });
+  factory Contenido.fromJson(Map<String, dynamic> contenido) {
+    return Contenido(
+      id: contenido['id'],
+      orden: contenido['orden'],
+      titulo: contenido['titulo'],
+      texto: contenido['texto'],
+      description: '<span>' + contenido['description'] + '</span>',
+      tema: Tema.fromJson(contenido['tema']),
+      visible: contenido['visible'],
+      imgs: contenido["img"] == null
+          ? []
+          : List<String>.from(contenido["img"].map((x) => x)),
+      icono: contenido['icono'],
+    );
+  }
 }

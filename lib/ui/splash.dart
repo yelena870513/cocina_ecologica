@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
-import 'package:cocina_ecologica/ui/home.dart';
 import 'package:flutter/material.dart';
 
 import 'navigation.dart';
