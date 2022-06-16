@@ -1,3 +1,4 @@
+import 'package:cocina_ecologica/constants/app_theme.dart';
 import 'package:cocina_ecologica/consumer/controlador_ui_model.dart';
 import 'package:cocina_ecologica/data/datasources/content_datasource.dart';
 import 'package:cocina_ecologica/screens/credito_screen.dart';
@@ -60,11 +61,11 @@ class HomeScreen extends StatelessWidget {
                       InkWell(
                         child: model.indexBounceTabBar == 1
                             ? Image.asset(
-                                'assets/imagenes/iconos/icono_MENU.png',
+                                'assets/imagenes/iconos/ICONO_RECETAS_ON.png',
                                 width: 40,
                                 height: 40)
                             : Image.asset(
-                                'assets/imagenes/iconos/icono_MENU.png',
+                                'assets/imagenes/iconos/ICONO_RECETAS_OFF.png',
                                 width: 40,
                                 height: 40),
                       ),

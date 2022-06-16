@@ -3,6 +3,7 @@ import 'package:cocina_ecologica/consumer/contenido_model.dart';
 import 'package:cocina_ecologica/consumer/home_model.dart';
 import 'package:cocina_ecologica/ui/transition_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ void main() async {
   Hive.registerAdapter(RegistroBusquedaAdapter());
   await Hive.openBox<int>(Strings.favoritos);
   await Hive.openBox<RegistroBusqueda>(Strings.dbBusqueda);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(MyApp());
 }

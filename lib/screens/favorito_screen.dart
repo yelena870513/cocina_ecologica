@@ -5,9 +5,8 @@ import 'package:cocina_ecologica/consumer/favorito_model.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
-import 'package:cocina_ecologica/widgets/line_horizontal.dart';
+import 'package:cocina_ecologica/widgets/line_horizontal_gruesa.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class FavoritoScreen extends StatelessWidget {
@@ -39,7 +38,7 @@ class FavoritoScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 30, left: 30.0),
+                        padding: const EdgeInsets.only(top: 35, left: 30.0),
                         child: Text(
                           Strings.favoritos,
                           style: AppTheme.estiloTitulo,
@@ -47,8 +46,10 @@ class FavoritoScreen extends StatelessWidget {
                         ),
                       ),
                       CustomPaint(
-                        painter: LineaHorizontal(),
-                      )
+                          painter: LineaHorizontalGruesa(
+                              2,
+                              const Offset(300.0, 0.0),
+                              const Offset(-300.0, 0.0))),
                     ],
                   ),
                   const SizedBox(
@@ -57,17 +58,15 @@ class FavoritoScreen extends StatelessWidget {
                   Expanded(
                       child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    itemBuilder: (context, index) => Slidable(
-                        key: Key(index.toString()),
-                        child:
-                            ContenidoListWidget(contenido: contenidos[index]),
-                        endActionPane: ActionPane(
-                          dismissible: DismissiblePane(onDismissed: () {
-                            contenidos.removeAt(index);
-                          }),
-                          motion: ScrollMotion(),
-                          children: [],
-                        )),
+                    itemBuilder: (context, index) => ContenidoListWidget(
+                        contenido: contenidos[index],
+                        mostarEliminar: true,
+                        onTap: () {
+                          int indexEliminar = model.favoritoList.indexWhere(
+                              (element) => contenidos[index].id == element);
+                          contenidos.removeAt(index);
+                          model.deleteItem(indexEliminar);
+                        }),
                     itemCount: contenidos.length,
                   ))
                 ],

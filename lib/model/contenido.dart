@@ -9,6 +9,7 @@ class Contenido {
   Tema tema;
   bool visible;
   List<String> imgs;
+  String icono;
 
   Contenido(
       {required this.id,
@@ -18,7 +19,8 @@ class Contenido {
       required this.description,
       required this.tema,
       required this.visible,
-      required this.imgs});
+      required this.imgs,
+      required this.icono});
 
   factory Contenido.fromJson(Map<String, dynamic> contenido) {
     return Contenido(
@@ -32,6 +34,7 @@ class Contenido {
       imgs: contenido["img"] == null
           ? []
           : List<String>.from(contenido["img"].map((x) => x)),
+      icono: contenido['icono'],
     );
   }
 }

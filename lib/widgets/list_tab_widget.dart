@@ -1,5 +1,4 @@
 import 'package:cocina_ecologica/constants/colors.dart';
-import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/proxies/tab_tema.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -18,29 +17,61 @@ class ListTabWidget extends StatelessWidget {
             : AppColors.verdeBase,
         elevation: tabTema.seleccionado ? 6 : 0,
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(2),
           child: Row(children: [
-            Image.asset('assets/imagenes/iconos/menutema.png'),
-            Text(
-              tabTema.tema.titulo.toUpperCase(),
-              style: TextStyle(
-                  color: tabTema.seleccionado
-                      ? Colors.white
-                      : AppColors.verdeOscuro,
-                  fontSize: ResponsiveValue(
-                        context,
-                        defaultValue: 14.0,
-                        valueWhen: [
-                          const Condition.largerThan(
-                            name: MOBILE,
-                            value: 16.0,
-                          )
-                        ],
-                      ).value ??
-                      0.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: FontFamily.helveticaNeueLTStdCn),
-            ),
+            tabTema.seleccionado
+                ? Image.asset(
+                    'assets/imagenes/botones/ON_' + tabTema.tema.imgs,
+                    width: ResponsiveValue(
+                          context,
+                          defaultValue: 80.0,
+                          valueWhen: [
+                            const Condition.largerThan(
+                              name: MOBILE,
+                              value: 200.0,
+                            )
+                          ],
+                        ).value ??
+                        0.0,
+                    height: ResponsiveValue(
+                          context,
+                          defaultValue: 80.0,
+                          valueWhen: [
+                            const Condition.largerThan(
+                              name: MOBILE,
+                              value: 200.0,
+                            )
+                          ],
+                        ).value ??
+                        0.0,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/imagenes/botones/OFF_' + tabTema.tema.imgs,
+                    width: ResponsiveValue(
+                          context,
+                          defaultValue: 80.0,
+                          valueWhen: [
+                            const Condition.largerThan(
+                              name: MOBILE,
+                              value: 200.0,
+                            )
+                          ],
+                        ).value ??
+                        0.0,
+                    height: ResponsiveValue(
+                          context,
+                          defaultValue: 80.0,
+                          valueWhen: [
+                            const Condition.largerThan(
+                              name: MOBILE,
+                              value: 200.0,
+                            )
+                          ],
+                        ).value ??
+                        0.0,
+                    fit: BoxFit.cover,
+                  )
           ]),
         ),
       ),

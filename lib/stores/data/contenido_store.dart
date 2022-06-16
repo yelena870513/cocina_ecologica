@@ -23,7 +23,7 @@ abstract class _ContenidoStore with Store {
 
   @observable
   Tema _selectedTema = Tema(
-      id: 100, subtitulo: '', titulo: '', imgs: [], audio: '', visible: false);
+      id: 100, subtitulo: '', titulo: '', imgs: '', audio: '', visible: false);
 
   @observable
   String errorMessage = '';

@@ -79,4 +79,88 @@ class ContenidoModel with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Contenido getAnterior(Contenido contenido) {
+    int temaId = contenido.tema.id;
+    Tema tema = temas.where((element) => element.id == temaId).first;
+    List<Contenido> listadoContenidos =
+        tema.contenidos.where((element) => element.visible == true).toList();
+    int position = listadoContenidos.lastIndexOf(contenido);
+    if (position == 0) {
+      return contenido;
+    } else {
+      Contenido anterior = listadoContenidos[position - 1];
+      return anterior;
+    }
+  }
+
+  Contenido getPosterior(Contenido contenido) {
+    int temaId = contenido.tema.id;
+    Tema tema = temas.where((element) => element.id == temaId).first;
+    List<Contenido> listadoContenidos =
+        tema.contenidos.where((element) => element.visible == true).toList();
+    int position = listadoContenidos.lastIndexOf(contenido);
+    if (position == listadoContenidos.length - 1) {
+      return contenido;
+    } else {
+      Contenido posterior = listadoContenidos[position + 1];
+      return posterior;
+    }
+  }
+
+  bool isFirst(Contenido contenido) {
+    int temaId = contenido.tema.id;
+    Tema tema = temas.where((element) => element.id == temaId).first;
+    List<Contenido> listadoContenidos =
+        tema.contenidos.where((element) => element.visible == true).toList();
+    int position = listadoContenidos.lastIndexOf(contenido);
+    return position == 0;
+  }
+
+  bool isLast(Contenido contenido) {
+    int temaId = contenido.tema.id;
+    Tema tema = temas.where((element) => element.id == temaId).first;
+    List<Contenido> listadoContenidos =
+        tema.contenidos.where((element) => element.visible == true).toList();
+    int position = listadoContenidos.lastIndexOf(contenido);
+    return position == listadoContenidos.length - 1;
+  }
+
+  bool isFirstCulture(Contenido contenido) {
+    List<Contenido> listadoContenidos =
+        contenidos.where((element) => element.visible == false).toList();
+    int position = listadoContenidos.lastIndexOf(contenido);
+    return position == 0;
+  }
+
+  bool isLastCulture(Contenido contenido) {
+    List<Contenido> listadoContenidos =
+        contenidos.where((element) => element.visible == false).toList();
+    int position = listadoContenidos.lastIndexOf(contenido);
+    return position == listadoContenidos.length - 1;
+  }
+
+  Contenido getAnteriorCulture(Contenido contenido) {
+    List<Contenido> listadoContenidos =
+        contenidos.where((element) => element.visible == false).toList();
+    int position = listadoContenidos.lastIndexOf(contenido);
+    if (position == 0) {
+      return contenido;
+    } else {
+      Contenido anterior = listadoContenidos[position - 1];
+      return anterior;
+    }
+  }
+
+  Contenido getPosteriorCulture(Contenido contenido) {
+    List<Contenido> listadoContenidos =
+        contenidos.where((element) => element.visible == false).toList();
+    int position = listadoContenidos.lastIndexOf(contenido);
+    if (position == listadoContenidos.length - 1) {
+      return contenido;
+    } else {
+      Contenido posterior = listadoContenidos[position + 1];
+      return posterior;
+    }
+  }
 }

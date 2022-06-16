@@ -1,6 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cocina_ecologica/constants/app_theme.dart';
 import 'package:cocina_ecologica/constants/colors.dart';
-import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/constants/strings.dart';
 import 'package:cocina_ecologica/consumer/contenido_model.dart';
 import 'package:cocina_ecologica/consumer/home_model.dart';
@@ -9,6 +8,7 @@ import 'package:cocina_ecologica/screens/busqueda_screen.dart';
 import 'package:cocina_ecologica/screens/receta_screen.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
+import 'package:cocina_ecologica/widgets/line_horizontal_gruesa.dart';
 import 'package:cocina_ecologica/widgets/list_tab_widget.dart';
 import 'package:cocina_ecologica/widgets/tema_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +51,8 @@ class _InicioScreenState extends State<InicioScreen>
           backgroundColor: Colors.transparent,
           body: SafeArea(
             child: SizedBox(
-              height: size.height,
+              height:
+                  size.height * AppTheme.getResponsiveValue(context, 0.8, 0.84),
               child: AnimatedBuilder(
                   animation: model,
                   builder: (_, __) => Container(
@@ -67,42 +68,22 @@ class _InicioScreenState extends State<InicioScreen>
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    AutoSizeText(
-                                      Strings.welcome,
-                                      style: TextStyle(
-                                          fontSize: ResponsiveValue(
-                                                context,
-                                                defaultValue: 35.0,
-                                                valueWhen: [
-                                                  const Condition.largerThan(
-                                                    name: MOBILE,
-                                                    value: 45.0,
-                                                  )
-                                                ],
-                                              ).value ??
-                                              0.0,
-                                          fontFamily: FontFamily.helvetica97,
-                                          fontStyle: FontStyle.normal,
-                                          color: AppColors.verdeClaroOscuro),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, left: 5.0),
+                                      child: Text(
+                                        Strings.recetas,
+                                        style: AppTheme.estiloTitulo,
+                                        textAlign: TextAlign.left,
+                                      ),
                                     ),
-                                    AutoSizeText(Strings.welcomeText,
-                                        style: TextStyle(
-                                            fontSize: ResponsiveValue(
-                                                  context,
-                                                  defaultValue: 25.0,
-                                                  valueWhen: [
-                                                    const Condition.largerThan(
-                                                      name: MOBILE,
-                                                      value: 35.0,
-                                                    )
-                                                  ],
-                                                ).value ??
-                                                0.0,
-                                            fontFamily:
-                                                FontFamily.helveticaNeueLTStdCn,
-                                            color: AppColors.verdeOscuro)),
+                                    CustomPaint(
+                                        painter: LineaHorizontalGruesa(
+                                            2,
+                                            const Offset(250.0, 0.0),
+                                            const Offset(-250.0, 0.0))),
                                     const SizedBox(
-                                      height: 5,
+                                      height: 22,
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
@@ -112,7 +93,17 @@ class _InicioScreenState extends State<InicioScreen>
                                       height: 50,
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15.0),
-                                      width: size.width * 0.87,
+                                      width: size.width *
+                                          ResponsiveValue(
+                                            context,
+                                            defaultValue: 0.87,
+                                            valueWhen: [
+                                              const Condition.largerThan(
+                                                name: MOBILE,
+                                                value: 0.5,
+                                              )
+                                            ],
+                                          ).value!.toDouble(),
                                       child: Row(
                                         children: [
                                           InkWell(
@@ -138,8 +129,8 @@ class _InicioScreenState extends State<InicioScreen>
                                                 modelContenido
                                                     .llenarRegistroBusqueda();
                                                 _userSearchController.clear();
-                                                Navigator.of(context).push(
-                                                    PageRouteBuilder(
+                                                Navigator.of(context)
+                                                    .push(PageRouteBuilder(
                                                         pageBuilder: (context,
                                                             animation1,
                                                             animation2) {
@@ -151,17 +142,23 @@ class _InicioScreenState extends State<InicioScreen>
                                                         },
                                                         transitionDuration:
                                                             const Duration(
-                                                                seconds: 1)));
-                                                modelContenido
-                                                    .limpiarBusqueda();
+                                                                seconds: 1)))
+                                                    .then((value) {
+                                                  modelContenido
+                                                      .limpiarBusqueda();
+                                                });
                                               } else {
                                                 ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
-                                                        backgroundColor:
-                                                            AppColors
-                                                                .verdeOscuro,
-                                                        content: Text(
-                                                            "Al menos tres caracteres.")));
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  backgroundColor:
+                                                      AppColors.verdeOscuro,
+                                                  content: Text(
+                                                    "Introduzca al menos tres caracteres.",
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                ));
                                               }
                                             },
                                           ),
@@ -194,7 +191,17 @@ class _InicioScreenState extends State<InicioScreen>
                               ),
                             ),
                             SizedBox(
-                              height: 50,
+                              height: ResponsiveValue(
+                                    context,
+                                    defaultValue: 42.0,
+                                    valueWhen: [
+                                      const Condition.largerThan(
+                                        name: MOBILE,
+                                        value: 80.0,
+                                      )
+                                    ],
+                                  ).value ??
+                                  0.0,
                               child: TabBar(
                                 onTap: model.onTemaSelected,
                                 tabs: model.tabs
@@ -204,6 +211,9 @@ class _InicioScreenState extends State<InicioScreen>
                                 isScrollable: true,
                                 indicatorWeight: 0.1,
                               ),
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             Expanded(
                               child: ListView.builder(

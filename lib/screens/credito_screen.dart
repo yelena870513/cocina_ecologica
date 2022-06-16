@@ -3,6 +3,7 @@ import 'package:cocina_ecologica/constants/strings.dart';
 import 'package:cocina_ecologica/consumer/font_model.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/line_horizontal.dart';
+import 'package:cocina_ecologica/widgets/line_horizontal_gruesa.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class CreditoScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 30, left: 30.0),
+                    padding: const EdgeInsets.only(top: 35, left: 30.0),
                     child: Text(
                       Strings.creditos,
                       style: AppTheme.estiloTitulo,
@@ -54,12 +55,12 @@ class CreditoScreen extends StatelessWidget {
                     ),
                   ),
                   CustomPaint(
-                    painter: LineaHorizontal(),
-                  )
+                      painter: LineaHorizontalGruesa(2,
+                          const Offset(250.0, 0.0), const Offset(-250.0, 0.0))),
                 ],
               ),
               const SizedBox(
-                height: 70,
+                height: 50,
               ),
               Expanded(
                   child: ListView.builder(
@@ -97,7 +98,8 @@ class CreditoScreen extends StatelessWidget {
         ),
         Text(
           nombre,
-          style: AppTheme.estiloContenido,
+          style: AppTheme.estiloContenido
+              .copyWith(fontSize: AppTheme.getResponsiveValue(context, 18, 28)),
         ),
         const SizedBox(
           height: 10,

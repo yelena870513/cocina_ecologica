@@ -1,4 +1,5 @@
 import 'package:cocina_ecologica/constants/app_theme.dart';
+import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/constants/strings.dart';
 import 'package:cocina_ecologica/consumer/contenido_model.dart';
@@ -7,9 +8,8 @@ import 'package:cocina_ecologica/screens/receta_screen.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
 import 'package:cocina_ecologica/widgets/customAppBarBusqueda.dart';
-import 'package:cocina_ecologica/widgets/line_horizontal.dart';
+import 'package:cocina_ecologica/widgets/line_horizontal_gruesa.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -39,6 +39,10 @@ class BusquedaScreen extends StatelessWidget {
       aux = modelContenido;
 
       return Scaffold(
+        bottomNavigationBar: Container(
+          height: kBottomNavigationBarHeight,
+          color: AppColors.verdeOscuro,
+        ),
         appBar: const CustomAppBarBusqueda(),
         body: Container(
           margin: const EdgeInsets.only(top: 20.0),
@@ -46,7 +50,7 @@ class BusquedaScreen extends StatelessWidget {
           child: SafeArea(
             child: SizedBox(
               width: size.width,
-              height: size.height * 0.8,
+              height: size.height,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -62,15 +66,17 @@ class BusquedaScreen extends StatelessWidget {
                         ),
                       ),
                       CustomPaint(
-                        painter: LineaHorizontal(),
-                      )
+                          painter: LineaHorizontalGruesa(
+                              2,
+                              const Offset(300.0, 0.0),
+                              const Offset(-300.0, 0.0))),
                     ],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Expanded(
-                      child: contenidos.length > 0
+                      child: contenidos.isNotEmpty
                           ? ListView.builder(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20.0),

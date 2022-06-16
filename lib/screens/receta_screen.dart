@@ -1,12 +1,14 @@
 import 'package:cocina_ecologica/constants/colors.dart';
 import 'package:cocina_ecologica/constants/font_family.dart';
 import 'package:cocina_ecologica/constants/strings.dart';
+import 'package:cocina_ecologica/consumer/contenido_model.dart';
 import 'package:cocina_ecologica/consumer/favorito_model.dart';
 import 'package:cocina_ecologica/consumer/font_model.dart';
 import 'package:cocina_ecologica/model/contenido.dart';
 import 'package:cocina_ecologica/uikit/uikit.dart';
 import 'package:cocina_ecologica/widgets/contenido_list_widget.dart';
 import 'package:cocina_ecologica/widgets/customAppBarGeneral.dart';
+import 'package:cocina_ecologica/widgets/ripple_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_html/flutter_html.dart';
@@ -105,14 +107,15 @@ class _RecetaScreenState extends State<RecetaScreen> {
         designSize: size,
         minTextAdapt: true,
         orientation: Orientation.portrait);
-    return Consumer<FontModel>(builder: (context, modelFont, child) {
+    return Consumer2<FontModel, ContenidoModel>(
+        builder: (context, modelFont, modelContenido, child) {
       return Scaffold(
         bottomNavigationBar: Container(
           height: kBottomNavigationBarHeight,
           color: AppColors.verdeOscuro,
         ),
-        extendBody: true,
-        resizeToAvoidBottomInset: true,
+        extendBody: false,
+        resizeToAvoidBottomInset: false,
         appBar: CustomAppBarGeneral(
           seccion: Strings.creditos,
           currentIndex: 1,
@@ -123,7 +126,19 @@ class _RecetaScreenState extends State<RecetaScreen> {
           decoration: UIKit.texturaPrincipal,
           width: size.width,
           child: Padding(
-            padding: const EdgeInsets.only(top: 20.0, left: 15.0),
+            padding: EdgeInsets.only(
+                top: ResponsiveValue(
+                      context,
+                      defaultValue: 20.0,
+                      valueWhen: [
+                        const Condition.largerThan(
+                          name: MOBILE,
+                          value: 0.0,
+                        )
+                      ],
+                    ).value ??
+                    0.0,
+                left: 15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -136,34 +151,115 @@ class _RecetaScreenState extends State<RecetaScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.contenido.titulo,
-                          style: TextStyle(
-                              fontFamily: FontFamily.helveticaNeueLTStdCn,
-                              height: 1.5,
-                              fontSize: 23,
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.normal,
-                              color: AppColors.verdeOscuro)),
-                      InkWell(
-                        child: Image.asset(imageFavIcon, height: 30, width: 30),
-                        onTap: () {
-                          setState(() {
-                            esFavorito = !esFavorito;
-                            imageFavIcon = esFavorito
-                                ? 'assets/imagenes/iconos/icono_FAVORITO_ON.png'
-                                : 'assets/imagenes/iconos/icono_FAVORITO_OFF.png';
-                            _actualizarFavoritos(widget.contenido.id);
-                          });
-                        },
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: ResponsiveValue(
+                                  context,
+                                  defaultValue: 0.0,
+                                  valueWhen: [
+                                    const Condition.largerThan(
+                                      name: MOBILE,
+                                      value: 20.0,
+                                    )
+                                  ],
+                                ).value ??
+                                0.0),
+                        child: Text(widget.contenido.titulo,
+                            style: TextStyle(
+                                fontFamily: FontFamily.helveticaNeueLTStdCn,
+                                height: 1.5,
+                                fontSize: ResponsiveValue(
+                                      context,
+                                      defaultValue: 23.0,
+                                      valueWhen: [
+                                        const Condition.largerThan(
+                                          name: MOBILE,
+                                          value: 28.0,
+                                        )
+                                      ],
+                                    ).value ??
+                                    0.0,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.normal,
+                                color: AppColors.verdeOscuro)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: ResponsiveValue(
+                                  context,
+                                  defaultValue: 0.0,
+                                  valueWhen: [
+                                    const Condition.largerThan(
+                                      name: MOBILE,
+                                      value: 20.0,
+                                    )
+                                  ],
+                                ).value ??
+                                0.0),
+                        child: InkWell(
+                          child: Image.asset(imageFavIcon,
+                              height: ResponsiveValue(
+                                    context,
+                                    defaultValue: 30.0,
+                                    valueWhen: [
+                                      const Condition.largerThan(
+                                        name: MOBILE,
+                                        value: 45.0,
+                                      )
+                                    ],
+                                  ).value ??
+                                  0.0,
+                              width: ResponsiveValue(
+                                    context,
+                                    defaultValue: 30.0,
+                                    valueWhen: [
+                                      const Condition.largerThan(
+                                        name: MOBILE,
+                                        value: 45.0,
+                                      )
+                                    ],
+                                  ).value ??
+                                  0.0),
+                          onTap: () {
+                            setState(() {
+                              esFavorito = !esFavorito;
+                              imageFavIcon = esFavorito
+                                  ? 'assets/imagenes/iconos/icono_FAVORITO_ON.png'
+                                  : 'assets/imagenes/iconos/icono_FAVORITO_OFF.png';
+                              _actualizarFavoritos(widget.contenido.id);
+                            });
+                          },
+                        ),
                       )
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: ResponsiveValue(
+                        context,
+                        defaultValue: 20.0,
+                        valueWhen: [
+                          const Condition.largerThan(
+                            name: MOBILE,
+                            value: 8.0,
+                          )
+                        ],
+                      ).value ??
+                      0.0,
                 ),
                 Container(
-                  margin: const EdgeInsets.only(right: 30.0),
+                  margin: EdgeInsets.only(
+                      right: ResponsiveValue(
+                            context,
+                            defaultValue: 30.0,
+                            valueWhen: [
+                              const Condition.largerThan(
+                                name: MOBILE,
+                                value: 70.0,
+                              )
+                            ],
+                          ).value ??
+                          0.0),
                   child: Column(
                     children: [
                       FlutterToggleTab(
@@ -176,7 +272,7 @@ class _RecetaScreenState extends State<RecetaScreen> {
                                   valueWhen: [
                                     const Condition.largerThan(
                                       name: MOBILE,
-                                      value: 20.0,
+                                      value: 22.0,
                                     )
                                   ],
                                 ).value ??
@@ -192,7 +288,7 @@ class _RecetaScreenState extends State<RecetaScreen> {
                                   valueWhen: [
                                     const Condition.largerThan(
                                       name: MOBILE,
-                                      value: 20.0,
+                                      value: 22.0,
                                     )
                                   ],
                                 ).value ??
@@ -204,7 +300,17 @@ class _RecetaScreenState extends State<RecetaScreen> {
                         ],
                         unSelectedBackgroundColors: const [AppColors.verdeBase],
                         width: 85,
-                        height: 50,
+                        height: ResponsiveValue(
+                              context,
+                              defaultValue: 50.0,
+                              valueWhen: [
+                                const Condition.largerThan(
+                                  name: MOBILE,
+                                  value: 60.0,
+                                )
+                              ],
+                            ).value ??
+                            0.0,
                         borderRadius: 15,
                         selectedIndex: _index,
                         labels: const [
@@ -220,89 +326,165 @@ class _RecetaScreenState extends State<RecetaScreen> {
                           });
                         },
                       ),
-                      SizedBox(
-                        height: ResponsiveValue(
-                              context,
-                              defaultValue: 420.0,
-                              valueWhen: [
-                                const Condition.largerThan(
-                                  name: MOBILE,
-                                  value: 600.0,
-                                )
+                      Container(
+                        margin: const EdgeInsets.only(top: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RippleButton(
+                                  child: InkWell(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Icon(
+                                        Icons.arrow_back,
+                                        color: modelContenido
+                                                .isFirst(widget.contenido)
+                                            ? AppColors.grisBase
+                                            : AppColors.verdeClaroOscuro,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      if (!modelContenido
+                                          .isFirst(widget.contenido)) {
+                                        Contenido cont = modelContenido
+                                            .getAnterior(widget.contenido);
+                                        _abrirPaginaReceta(context, cont);
+                                      }
+                                    },
+                                  ),
+                                ),
+                                RippleButton(
+                                  child: InkWell(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Icon(
+                                        Icons.arrow_forward,
+                                        color: modelContenido
+                                                .isLast(widget.contenido)
+                                            ? AppColors.grisBase
+                                            : AppColors.verdeClaroOscuro,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      if (!modelContenido
+                                          .isLast(widget.contenido)) {
+                                        Contenido cont = modelContenido
+                                            .getPosterior(widget.contenido);
+                                        _abrirPaginaReceta(context, cont);
+                                      }
+                                    },
+                                  ),
+                                ),
                               ],
-                            ).value ??
-                            0.0,
-                        child: SingleChildScrollView(
-                            physics: const PageScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            child: Html(data: currentHtml, style: {
-                              // tables will have the below background color
-                              "p": Style(
-                                fontFamily: FontFamily.helveticaNeueLTStdCn,
-                                lineHeight: LineHeight.number(1),
-                                maxLines: 3,
-                                fontSize: FontSize(
-                                  ResponsiveValue(
-                                        context,
-                                        defaultValue: ScreenUtil()
-                                            .setSp(modelFont.fontSizeContenido),
-                                        valueWhen: [
-                                          Condition.largerThan(
-                                            name: MOBILE,
-                                            value: ScreenUtil().setSp(modelFont
-                                                .fontSizeContenidoTable),
-                                          )
-                                        ],
-                                      ).value ??
-                                      0.0,
-                                ),
-                              ),
-                              "span": Style(
-                                fontFamily: FontFamily.helveticaNeueLTStdCn,
-                                lineHeight: LineHeight.number(1.5),
-                                fontSize: FontSize(
-                                  ResponsiveValue(
-                                        context,
-                                        defaultValue: ScreenUtil()
-                                            .setSp(modelFont.fontSizeContenido),
-                                        valueWhen: [
-                                          Condition.largerThan(
-                                            name: MOBILE,
-                                            value: ScreenUtil().setSp(modelFont
-                                                .fontSizeContenidoTable),
-                                          )
-                                        ],
-                                      ).value ??
-                                      0.0,
-                                ),
-                              ),
-                              "td": Style(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                alignment: Alignment.center,
-                                textAlign: TextAlign.center,
-                                width: ResponsiveValue(
-                                      context,
-                                      defaultValue: 105.0,
-                                      valueWhen: [
-                                        const Condition.largerThan(
-                                          name: MOBILE,
-                                          value: 110.0,
-                                        )
-                                      ],
-                                    ).value ??
-                                    0.0,
-                                height: 70,
-                              )
-                            }, customRender: {
-                              "table": (context, child) {
-                                return SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  child: (context.tree as TableLayoutElement)
-                                      .toWidget(context),
-                                );
-                              },
-                            })),
+                            ),
+                            SizedBox(
+                              height: ResponsiveValue(
+                                    context,
+                                    defaultValue: 300.0,
+                                    valueWhen: [
+                                      const Condition.largerThan(
+                                        name: MOBILE,
+                                        value: 910.0,
+                                      )
+                                    ],
+                                  ).value ??
+                                  0.0,
+                              child: SingleChildScrollView(
+                                  physics: const PageScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  child: Html(data: currentHtml, style: {
+                                    // tables will have the below background color
+                                    "p": Style(
+                                      fontFamily:
+                                          FontFamily.helveticaNeueLTStdCn,
+                                      lineHeight: LineHeight.number(1),
+                                      maxLines: 3,
+                                      fontSize: FontSize(
+                                        ResponsiveValue(
+                                              context,
+                                              defaultValue: ScreenUtil().setSp(
+                                                  modelFont.fontSizeContenido),
+                                              valueWhen: [
+                                                Condition.largerThan(
+                                                  name: MOBILE,
+                                                  value: ScreenUtil().setSp(
+                                                      modelFont
+                                                          .fontSizeContenidoTable),
+                                                )
+                                              ],
+                                            ).value ??
+                                            0.0,
+                                      ),
+                                    ),
+                                    "span": Style(
+                                      fontFamily:
+                                          FontFamily.helveticaNeueLTStdCn,
+                                      lineHeight: LineHeight.number(1.5),
+                                      fontSize: FontSize(
+                                        ResponsiveValue(
+                                              context,
+                                              defaultValue: ScreenUtil().setSp(
+                                                  modelFont.fontSizeContenido),
+                                              valueWhen: [
+                                                Condition.largerThan(
+                                                  name: MOBILE,
+                                                  value: ScreenUtil().setSp(
+                                                      modelFont
+                                                          .fontSizeContenidoTable),
+                                                )
+                                              ],
+                                            ).value ??
+                                            0.0,
+                                      ),
+                                    ),
+                                    "td": Style(
+                                      padding:
+                                          const EdgeInsets.only(right: 30.0),
+                                      alignment: Alignment.center,
+                                      textAlign: TextAlign.center,
+                                      width: ResponsiveValue(
+                                            context,
+                                            defaultValue: 105.0,
+                                            valueWhen: [
+                                              const Condition.largerThan(
+                                                name: MOBILE,
+                                                value: 170.0,
+                                              )
+                                            ],
+                                          ).value ??
+                                          0.0,
+                                      height: ResponsiveValue(
+                                            context,
+                                            defaultValue: 100.0,
+                                            valueWhen: [
+                                              const Condition.largerThan(
+                                                name: MOBILE,
+                                                value: 55.0,
+                                              )
+                                            ],
+                                          ).value ??
+                                          0.0,
+                                    )
+                                  }, customRender: {
+                                    "table": (context, child) {
+                                      return SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        child:
+                                            (context.tree as TableLayoutElement)
+                                                .toWidget(context),
+                                      );
+                                    },
+                                  })),
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -314,4 +496,19 @@ class _RecetaScreenState extends State<RecetaScreen> {
       );
     });
   }
+}
+
+void _abrirPaginaReceta(BuildContext context, Contenido contenido) async {
+  await Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        reverseTransitionDuration: const Duration(milliseconds: 600),
+        transitionDuration: const Duration(milliseconds: 600),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return FadeTransition(
+            opacity: animation,
+            child: RecetaScreen(contenido: contenido),
+          );
+        },
+      ));
 }

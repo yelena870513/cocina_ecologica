@@ -4,7 +4,7 @@ class Tema {
   int id;
   String titulo;
   String subtitulo;
-  List<String> imgs;
+  String imgs;
   String audio;
   bool visible;
   List<Contenido> contenidos = <Contenido>[];
@@ -21,9 +21,7 @@ class Tema {
       id: tema['id'],
       titulo: tema['titulo'],
       subtitulo: '',
-      imgs: tema["img"] == null
-          ? []
-          : List<String>.from(tema["img"].map((x) => x)),
+      imgs: tema["img"],
       visible: tema["visible"],
       audio: '',
     );
